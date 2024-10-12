@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="mainLayout" template="/WEB-INF/layout/layout1.jsp">
+        <put-attribute name="header" value="/WEB-INF/layout/header.jsp"/>
+        <put-attribute name="menu" value="/WEB-INF/layout/menu.jsp"/>
+        <put-attribute name="info" value="/WEB-INF/layout/info.jsp"/>
+        <put-attribute name="main" value="/WEB-INF/layout/main.jsp"/>
+
+    </definition>
+    <!--macro-->
+    <definition name="*/*" extends="mainLayout">
+        <put-attribute name="main" value="/WEB-INF/{1}/{2}.jsp"/>
+    </definition>
+
+
+    <!-- Layout 적용하지 않을 페이지들 -->
+    <definition name="member/form" template="/WEB-INF/member/form.jsp"/>
+    <definition name="member/loginform" template="/WEB-INF/member/login.jsp"/>
+    <definition name="member/logout" template="/WEB-INF/layout/main.jsp"/>
+   <definition name="board/writeform" template="/WEB-INF/board/writeform.jsp"/>
+    <definition name="board/mypageform" template="/WEB-INF/board/mypageform.jsp"/>
+
+    <definition name="board/boardlist" extends="mainLayout">
+        <put-attribute name="main" value="/WEB-INF/board/boardlist.jsp"/>
+    </definition>
+
+
+    <definition name="board/search" extends="mainLayout">
+        <put-attribute name="main" value="/WEB-INF/board/searchlist.jsp"/>
+    </definition>
+</tiles-definitions>
