@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mapper.MemberMapperInter">
+<!--    <select id="getTotalCount" resultType="int"> &lt;!&ndash;메서드 아이디와 이름을 똑같이 주면 자동호출된다&ndash;&gt;-->
+<!--        select count(*) from memberdb;-->
+<!--    </select>-->
+</mapper>
