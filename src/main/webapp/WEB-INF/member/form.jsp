@@ -17,27 +17,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- 사용자 정의 CSS -->
     <style>
-
         @font-face {
             font-family: 'YEONGJUPunggiGinsengTTF';
             src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/YEONGJUPunggiGinsengTTF.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
         }
-        body *{
+        body, input {
             font-family: 'YEONGJUPunggiGinsengTTF';
-            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/YEONGJUPunggiGinsengTTF.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
-        body,input {
-            font-family: 'YEONGJUPunggiGinsengTTF';
-            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/YEONGJUPunggiGinsengTTF.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
         }
 
-        div.title{
+        div.title {
             font-family: "Nanum Myeongjo", serif;
             color: black;
             width: 100px;
@@ -49,7 +39,6 @@
             margin-left: 160px;
         }
 
-
         .container {
             max-width: 500px;
             margin: 50px auto;
@@ -59,7 +48,7 @@
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .form-profile-img{
+        .form-profile-img {
             float: right;
             width: 300px;
             display: flex; /* 부모 요소를 가로 정렬로 설정 */
@@ -81,62 +70,57 @@
         }
     </style>
     <script type="text/javascript">
-        let jungbok=false;
+        let jungbok = false;
 
-        $(function(){
-            $("#myfile").change(function(){
-                //console.log($(this)[0]);//type 이 file 인경우 배열타입으로 넘어온다
-                let reg=/(.*?)\/(jpg|jpeg|png|gif)$/;
-                let f=$(this)[0].files[0];
-                if(!f.type.match(reg)){
+        $(function () {
+            $("#myfile").change(function () {
+                let reg = /(.*?)\/(jpg|jpeg|png|gif)$/;
+                let f = $(this)[0].files[0];
+                if (!f.type.match(reg)) {
                     alert("이미지 파일만 가능합니다");
                     return;
                 }
-                if(f){
-                    let reader=new FileReader();
-                    reader.onload=function(e){
-                        $("#showimg1").attr("src",e.target.result);
+                if (f) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#showimg1").attr("src", e.target.result);
                     }
                     reader.readAsDataURL($(this)[0].files[0]);
                 }
             });
 
-            //중복버튼 이벤트
-            $("#btncheckid").click(function(){
-                if($("#userId").val()==''){
+            $("#btncheckid").click(function () {
+                if ($("#userId").val() == '') {
                     alert("가입할 아이디를 입력해주세요");
                     return;
                 }
 
                 $.ajax({
-                    type:"get",
-                    dataType:"json",
-                    url:"./idcheck",
-                    data:{"searchid":$("#userId").val()},
-                    success:function(data){
-                        if(data.count==0){
-                            alert("가입 가능한 아이디입니다");
-                            jungbok=true;
-                        }else{
-                            alert("이미 가입되어있는 아이디입니다");
-                            jungbok=false;
+                    type: "get",
+                    dataType: "json",
+                    url: "./idcheck",
+                    data: { "searchid": $("#userId").val() },
+                    success: function (data) {
+                        if (data.count == 0) {
+                            $("#userIdMessage").text("가입 가능한 아이디입니다").removeClass('text-danger').addClass('text-success');
+                            jungbok = true;
+                        } else {
+                            $("#userIdMessage").text("이미 가입되어있는 아이디입니다").removeClass('text-success').addClass('text-danger');
+                            jungbok = false;
                             $("#userId").val("");
                         }
                     }
                 });
             });
 
-            //아이디를 입력시 다시 중복확인을 누르도록 중복변수를 초기화
-            $("#userId").keyup(function(){
-                jungbok=false;
+            $("#userId").keyup(function () {
+                jungbok = false;
             });
 
-            // 이메일 인증번호 발송 버튼 클릭 시
-            $('#btncheckEmail').on('click', function() {
-                var email = $('#email').val(); // 입력된 이메일 값 가져오기
-
+            $('#btncheckEmail').on('click', function () {
+                var email = $('#email').val();
                 if (email === "") {
-                    alert("이메일을 입력하세요.");
+                    $("#emailMessage").text("이메일을 입력하세요.").removeClass('text-success').addClass('text-danger');
                     return;
                 }
 
@@ -144,40 +128,63 @@
                     url: "/login/mailConfirm",
                     type: "POST",
                     data: { email: email },
-                    success: function(checkNum) {
+                    success: function (checkNum) {
                         alert("인증번호가 이메일로 발송되었습니다. 이메일을 확인하고 인증번호를 입력하세요.");
-                        $('#emailCode').data('sentCode', checkNum);  // 보낸 인증번호 저장
+                        $('#emailCode').data('sentCode', checkNum);
                     },
-                    error: function() {
+                    error: function () {
                         alert("이메일 인증에 실패했습니다. 다시 시도해주세요.");
                     }
                 });
             });
 
-            // 인증번호 확인 버튼 클릭 시
-            $('#btncheckCode').on('click', function() {
+            $('#btncheckCode').on('click', function () {
                 var enteredCode = $('#emailCode').val();
-                var sentCode = $('#emailCode').data('sentCode');  // 보낸 인증번호 가져오기
+                var sentCode = $('#emailCode').data('sentCode');
 
                 if (enteredCode === "") {
-                    alert("인증번호를 입력하세요.");
+                    $("#codeMessage").text("인증번호를 입력하세요.").removeClass('text-success').addClass('text-danger');
                     return;
                 }
 
                 if (enteredCode === sentCode) {
-                    alert("인증이 성공적으로 완료되었습니다.");
+                    $("#codeMessage").text("인증이 성공적으로 완료되었습니다.").removeClass('text-danger').addClass('text-success');
                 } else {
-                    alert("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+                    $("#codeMessage").text("인증번호가 일치하지 않습니다. 다시 확인해주세요.").removeClass('text-success').addClass('text-danger');
                 }
             });
-        });  //close function
 
+            // 분야 선택 시 세부 분야 동적으로 변경
+            $('#category').change(function () {
+                let selectedCategory = $(this).val();
+                $('#subcategory-container').show();
+                $('#subcategory').empty(); // 이전 항목 제거
 
-        function check()
-        {
-            if(!jungbok){
+                let subcategories = {
+                    '인문학': ['철학', '문학', '역사', '문화 연구', '사회학', '언어학'],
+                    '의료 및 건강': ['의사', '간호사', '약사', '물리치료사', '임상병리사', '정신건강 전문가'],
+                    '공학': ['기계공학', '전기공학', '컴퓨터공학', '토목공학', '화학공학', '소프트웨어 개발', '정보 보안'],
+                    '자연과학': ['물리학', '화학', '생물학', '지구과학', '환경과학', '천문학'],
+                    '예술 및 디자인': ['회화', '조각', '디자인', '사진', '패션 디자인', '그래픽 디자인', '영상 제작'],
+                    '체육 및 스포츠': ['축구', '농구', '수영', '체육 교육', '운동 생리학', '스포츠 경영'],
+                    '음악': ['클래식', '재즈', '팝', '작곡', '음악 교육', '음향 기술', '사운드 디자인'],
+                    '정보기술': ['프로그래밍', '데이터 과학', '네트워크 관리', 'UI/UX 디자인', '웹 개발', 'AI 및 머신러닝'],
+                    '비즈니스 및 경제': ['경영학', '회계학', '마케팅', '인사 관리', '재무 분석', '운영 관리'],
+                    '법률': ['법학', '형사법', '민사법', '국제법', '지적 재산권', '법률 상담']
+                };
+
+                if (subcategories[selectedCategory]) {
+                    $.each(subcategories[selectedCategory], function (index, value) {
+                        $('#subcategory').append('<option value="' + value + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+
+        function check() {
+            if (!jungbok) {
                 alert("아이디 중복확인을 해주세요");
-                return false;//false반환시 action 실행을 안함
+                return false; // false 반환 시 action 실행을 안함
             }
         }
     </script>
@@ -195,27 +202,26 @@
 
         <div class="form-group-id" style="width: 300px;">
             <label for="userId">아이디</label>
-            <input type="text" id="userId" name="userId" class="form-control" required>
+            <input type="text" id="userId" name="userId" class="form-control" required style="flex: 1;">
             &nbsp;
-            <button type="button" class="btn btn-sm btn-danger"
-                    id="btncheckid">중복확인</button>
+            <button type="button" class="btn btn-sm btn-danger" id="btncheckid" style="margin-top: 10px; margin-bottom: 5px;">중복확인</button>
+            <div id="userIdMessage" class="text-danger mt-2"></div> <!-- 아이디 중복 확인 메시지 -->
         </div>
 
         <div class="form-group">
             <label for="email">이메일</label>
             <input type="email" id="email" name="email" class="form-control" required>
-
-            <button type="button" class="btn btn-sm btn-danger"
-                    id="btncheckEmail">이메일 인증</button>
+            <button type="button" class="btn btn-sm btn-danger" id="btncheckEmail" style="margin-top: 10px; margin-left: 5px">이메일 인증</button>
+            <div id="emailMessage" class="text-danger mt-2"></div> <!-- 이메일 인증 메시지 -->
         </div>
 
         <div class="form-group">
-            <label for="email">인증번호 </label>
+            <label for="email">인증번호</label>
             <input type="email" id="emailCode" name="emailCode" class="form-control" required>
-
-            <button type="button" class="btn btn-sm btn-danger"
-                    id="btncheckCode">인증번호 확인</button>
+            <button type="button" class="btn btn-sm btn-danger" id="btncheckCode" style="margin-top: 10px; margin-left: 5px">인증번호 확인</button>
+            <div id="codeMessage" class="text-danger mt-2"></div> <!-- 인증번호 확인 메시지 -->
         </div>
+
 
         <div class="form-group">
             <label for="passwd">비밀번호</label>
@@ -224,47 +230,37 @@
 
         <div class="form-profile" style="width: 300px;">
             <div class="form-profile-img">
-                <img src="" id="showimg1" style="width: 100px; margin: 10px;"
-                     onerror="this.src='../image/saram.png'" class="rounded-circle">
-                <input type="file" id="myfile" name="myfile" class="form-control" required style="width: 400px;">
+                <img src="" id="showimg1" style="width: 100px; margin: 10px;" onerror="this.src='../image/saram.png'" class="rounded-circle">
+                <input type="file" id="myfile" name="myfile" class="form-control" required style="width: 300px;">
             </div>
-
-
         </div>
 
         <div class="form-group">
             <label for="category">분야</label>
-            <table class="table">
-                <tr>
-                    <td><input type="checkbox" id="graphic_design" name="category" value="graphic_design"><label for="graphic_design">그래픽 디자인</label></td>
-                    <td><input type="checkbox" id="branding_editing" name="category" value="branding_editing"><label for="branding_editing">브랜딩/편집</label></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" id="video_motion_graphics" name="category" value="video_motion_graphics"><label for="video_motion_graphics">영상/모션그래픽</label></td>
-                    <td><input type="checkbox" id="ui_ux" name="category" value="ui_ux"><label for="ui_ux">UI/UX</label></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" id="character_design" name="categories" value="character_design"><label for="character_design">캐릭터 디자인</label></td>
-                    <td><input type="checkbox" id="product_package_design" name="category" value="product_package_design"><label for="product_package_design">제품/패키지 디자인</label></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" id="digital_art" name="category" value="digital_art"><label for="digital_art">디지털 아트</label></td>
-                    <td><input type="checkbox" id="typography" name="category" value="typography"><label for="typography">타이포그래피</label></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" id="illustration" name="category" value="illustration"><label for="illustration">일러스트레이션</label></td>
-                    <td><input type="checkbox" id="photography" name="category" value="photography"><label for="photography">포토그래피</label></td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" id="fine_art" name="category" value="fine_art"><label for="fine_art">파인아트</label></td>
-                    <td><input type="checkbox" id="craft" name="category" value="craft"><label for="craft">공예</label></td>
-                </tr>
-            </table>
+            <select id="category" name="category" class="form-control" required>
+                <option value="">선택하세요</option>
+                <option value="인문학">인문학</option>
+                <option value="의료 및 건강">의료 및 건강</option>
+                <option value="공학">공학</option>
+                <option value="자연과학">자연과학</option>
+                <option value="예술 및 디자인">예술 및 디자인</option>
+                <option value="체육 및 스포츠">체육 및 스포츠</option>
+                <option value="음악">음악</option>
+                <option value="정보기술">정보기술</option>
+                <option value="비즈니스 및 경제">비즈니스 및 경제</option>
+                <option value="법률">법률</option>
+            </select>
         </div>
 
 
-        <div class="form-group text-center">
+        <div class="form-group" id="subcategory-container" style="display:none;">
+            <label for="subcategory">세부 분야</label>
+            <select id="subcategory" name="subcategory" class="form-control">
+                <!-- 동적으로 생성될 세부 분야 -->
+            </select>
+        </div>
 
+        <div class="form-group text-center">
             <button type="submit" class="btn btn-danger btn-block">회원가입</button>
         </div>
     </form>
@@ -274,4 +270,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
