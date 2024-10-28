@@ -130,6 +130,46 @@
             $("#userId").keyup(function(){
                 jungbok=false;
             });
+
+            // 이메일 인증번호 발송 버튼 클릭 시
+            $('#btncheckEmail').on('click', function() {
+                var email = $('#email').val(); // 입력된 이메일 값 가져오기
+
+                if (email === "") {
+                    alert("이메일을 입력하세요.");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/login/mailConfirm",
+                    type: "POST",
+                    data: { email: email },
+                    success: function(checkNum) {
+                        alert("인증번호가 이메일로 발송되었습니다. 이메일을 확인하고 인증번호를 입력하세요.");
+                        $('#emailCode').data('sentCode', checkNum);  // 보낸 인증번호 저장
+                    },
+                    error: function() {
+                        alert("이메일 인증에 실패했습니다. 다시 시도해주세요.");
+                    }
+                });
+            });
+
+            // 인증번호 확인 버튼 클릭 시
+            $('#btncheckCode').on('click', function() {
+                var enteredCode = $('#emailCode').val();
+                var sentCode = $('#emailCode').data('sentCode');  // 보낸 인증번호 가져오기
+
+                if (enteredCode === "") {
+                    alert("인증번호를 입력하세요.");
+                    return;
+                }
+
+                if (enteredCode === sentCode) {
+                    alert("인증이 성공적으로 완료되었습니다.");
+                } else {
+                    alert("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+                }
+            });
         });  //close function
 
 
@@ -164,6 +204,17 @@
         <div class="form-group">
             <label for="email">이메일</label>
             <input type="email" id="email" name="email" class="form-control" required>
+
+            <button type="button" class="btn btn-sm btn-danger"
+                    id="btncheckEmail">이메일 인증</button>
+        </div>
+
+        <div class="form-group">
+            <label for="email">인증번호 </label>
+            <input type="email" id="emailCode" name="emailCode" class="form-control" required>
+
+            <button type="button" class="btn btn-sm btn-danger"
+                    id="btncheckCode">인증번호 확인</button>
         </div>
 
         <div class="form-group">
