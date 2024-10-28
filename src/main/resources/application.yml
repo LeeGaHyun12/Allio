@@ -1,37 +1,31 @@
-#port setting
+# 포트 설정
 server:
   port: 9000
 
-#jsp setting
+# 스프링 설정
 spring:
-# 포워드를 jsp에서 tiles로 변경했으므로 주석처리
-#  mvc:
-#    view:
-#      prefix: /WEB-INF/
-#      suffix: .jsp
+  # JSP 설정
+  # 포워드를 JSP에서 Tiles로 변경했으므로 주석 처리함
+  # mvc:
+  #   view:
+  #     prefix: /WEB-INF/
+  #     suffix: .jsp
+
+  # 파일 업로드 설정
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
 
-
-#gangsa mysql db
+  # gangsa MySQL 데이터베이스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://db-pf2ak-kr.vpc-pub-cdb.ntruss.com:3306/studydb?serverTimezone=Asia/Seoul
     username: study
     password: study1234!
 
-
-##mysql bit701
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/pp?serverTimezone=Asia/Seoul
-#    username: root
-#    password: 35373537
-
-#mybatis setting
+# MyBatis 설정
 mybatis:
   type-aliases-package: data.dto
   mapper-locations:
-  - /mapper/**/*.xml
+    - /mapper/**/*.xml
