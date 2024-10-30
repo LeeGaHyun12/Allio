@@ -133,6 +133,7 @@
 
             <div class="form-group text-center">
                 <button id="loginbtn" type="button" class="btn btn-danger btn-block">로그인</button>
+                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=014c858037f00f7a1f3d02e1b378ff3b&redirect_uri=http://localhost:9000/auto/kakao/callback"><img height="38px" src="../image/kakao_login_button.png"/></a>
             </div>
         </form>
     </div>
@@ -142,4 +143,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

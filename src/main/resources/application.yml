@@ -24,8 +24,30 @@ spring:
     username: study
     password: study1234!
 
+  # 이메일 설정
+  mail:
+    host: smtp.naver.com
+    username: wjstnals5@naver.com
+    password: Aa2330680
+    port: 465
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.naver.com
+            enable: true
+          debug: true
+
 # MyBatis 설정
 mybatis:
   type-aliases-package: data.dto
   mapper-locations:
     - /mapper/**/*.xml
+
+cos:
+  key: cos1234
