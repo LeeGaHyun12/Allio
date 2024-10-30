@@ -31,6 +31,9 @@ public class MemberService {
         memInter.insertMember(dto);
     }
 
+    public MemberDto findMember(String userId){
+        return memInter.findMember(userId);
+    }
 
     public List<MemberDto> getAllMembers(){
         return memInter.getAllMembers();
