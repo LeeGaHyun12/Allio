@@ -9,11 +9,11 @@ import java.util.Map;
 
 @Mapper
 public interface BoardMapperInter {
-    @Insert("""
-			insert into allio_board (subject,userId,port_Id,port_photo,content,count,like_count,category,date)
-			values (#{subject},#{userId},#{port_Id},#{port_photo},#{content},#{count},#{like_count},#{category},now())
-			""")
-    public void insertBoard(BoardDto dto);
+	@Insert("""
+    	insert into allio_board (subject, userId, port_Id, port_photo, content, count, like_count, category, date, startDate, endDate)
+    	values (#{subject}, #{userId}, #{port_Id}, #{port_photo}, #{content}, #{count}, #{like_count}, #{category}, now(), #{startDate}, #{endDate})
+		""")
+	void insertBoard(BoardDto dto);
 
 	@Select("select * from allio_board")
 	List<BoardDto> getAllPortfolios();
