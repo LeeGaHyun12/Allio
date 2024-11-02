@@ -5,15 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
-@NoArgsConstructor
 @Data
-@Alias("BoardDto")
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Alias("BoardDto")
 public class BoardDto {
     private int num;
     private String port_Id;
@@ -25,5 +25,6 @@ public class BoardDto {
     private int count;
     private int like_count;
     private String category;
-
+    private LocalDate startDate; // 작업 시작일
+    private LocalDate endDate;   // 작업 종료일
 }

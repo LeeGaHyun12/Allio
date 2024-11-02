@@ -1,6 +1,5 @@
 package controller.board;
 
-
 import data.dto.BoardDto;
 import data.service.BoardService;
 import data.service.MemberService;
@@ -16,72 +15,65 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Controller
 public class BoardFormController {
+
     @Autowired
     private BoardService boardService;
 
     @Autowired
     private MemberService memberService;
-    //게시물 작성
+
+    // 게시물 작성 폼 페이지 요청
     @GetMapping("/board/writeform")
     public String form() {
         return "board/writeform";
     }
 
-
+    // 게시물 업로드 및 데이터 처리
     @PostMapping("/board/upload")
-    public String writeform(
+    public String writeForm(
             @RequestParam("subject") String subject,
             @RequestParam("content") String content,
-            @RequestParam("upload")MultipartFile upload,
+            @RequestParam("upload") MultipartFile upload,
             @RequestParam("category") String category,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
             HttpServletRequest request,
             HttpSession session
     ) {
-        //업로드될 경로
+        // 업로드 경로 설정
         String savePath = request.getSession().getServletContext().getRealPath("/photo");
-        //업로드한 파일의 확장자 분리
-        String ext = upload.getOriginalFilename().split("\\.")[1];
-        //업로드할 파일명
-        String photoname = UUID.randomUUID() + "."+ext;
+        String photoname = null;
 
-
-
-        try {
-                upload.transferTo(new File(savePath+"/"+photoname));
-            } catch (IllegalStateException|IOException e) {
+        if (!upload.isEmpty()) {
+            String ext = upload.getOriginalFilename().substring(upload.getOriginalFilename().lastIndexOf(".") + 1);
+            photoname = UUID.randomUUID() + "." + ext;
+            try {
+                upload.transferTo(new File(savePath + "/" + photoname));
+            } catch (IllegalStateException | IOException e) {
                 e.printStackTrace();
             }
+        }
 
+        String loginId = (String) session.getAttribute("loginid");
 
         BoardDto dto = BoardDto.builder()
                 .subject(subject)
                 .port_photo(photoname)
                 .content(content)
                 .category(category)
+                .userId(loginId)
+                .port_Id(loginId)
+                .startDate(LocalDate.parse(startDate))
+                .endDate(LocalDate.parse(endDate))
                 .build();
 
-
-
-        //실제 업로드
-
-        //세션으로부터 아이디 얻기
-        String loginid=(String) session.getAttribute("loginid");
-        dto.setUserId(loginid);
-        dto.setPort_Id(loginid);
-
-        //확인할 거... 추가후 저장된 시퀀스 값
-        System.out.println("num="+dto.getNum());
-
-        //db에 저장
         boardService.insertBoard(dto);
 
         return "redirect:/";
-
     }
 }
