@@ -24,11 +24,31 @@ spring:
     username: study
     password: study1234!
 
+  # 이메일 설정
+  mail:
+    host: smtp.naver.com
+    username: wjstnals5@naver.com
+    password: Aa2330680
+    port: 465
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.naver.com
+            enable: true
+          debug: true
+
 # MyBatis 설정
 mybatis:
   type-aliases-package: data.dto
   mapper-locations:
     - /mapper/**/*.xml
+
 
 ncp:
   storage:
@@ -37,3 +57,7 @@ ncp:
     accessKey: A252DF814BA7C672CD48
     secretKey: 46D6404D168813DE822E4CC13C55346DFB47D3E1
     bucket-name: allio
+
+cos:
+  key: cos1234
+

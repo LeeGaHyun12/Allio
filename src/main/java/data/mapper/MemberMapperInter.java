@@ -23,6 +23,9 @@ public interface MemberMapperInter {
     @Select("select * from allio_user order by num desc")
     public List<MemberDto> getAllMembers();
 
+    @Select("SELECT * FROM allio_user WHERE userId=#{userId}")
+    MemberDto findMember(String userId);
+
     @Select("select * from allio_user where num=#{num}")
     public MemberDto getData(int num);
 
