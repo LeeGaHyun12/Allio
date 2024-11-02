@@ -17,6 +17,14 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  messages:
+    basename: messages/messages
+    encoding: UTF-8
+    use-code-as-default-message: false
+    fallback-to-system-locale: false
+    cache-duration: 3600
+    always-use-message-format: true
+
   # gangsa MySQL 데이터베이스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -51,3 +59,4 @@ mybatis:
 
 cos:
   key: cos1234
+

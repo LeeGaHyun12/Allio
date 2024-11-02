@@ -128,7 +128,7 @@
     }
 
     .buttonbox::-webkit-scrollbar {
-        display: none;
+      display: none;
     }
 
     .text{
@@ -380,15 +380,43 @@
       });
     });
 
+    function changeLanguage(locale) {
+      console.log(locale);
+      fetch('/changeLanguage?locale='+locale)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then(data => {
+                document.querySelectorAll('[data-lang]').forEach((element) => {
+                  const key = element.getAttribute('data-lang');
+                  element.textContent = data[key];
+                });
+              })
+              .catch(error => {
+                console.error('Error fetching language data:', error);
+              });
+
+    }
+
 
 
   </script>
 </head>
 <body>
 
-<b class="text">Explore inspiring designs</b><br>
+<b class="text" data-lang="explore"><fmt:message key="explore" /></b><br>
+
+<div class="language-switcher">
+  <button onclick="changeLanguage('en')">English</button>
+  <button onclick="changeLanguage('ko')">한국어</button>
+</div>
+
 
 <div class="buttonbox">
+  <b class="text" data-lang="explore"><fmt:message key="explore" /></b><br>
   <button class="ctbutton" value="graphic_design"># Graphic Design</button>
   <button class="ctbutton" value="video_motion_graphics"># Video/Motion Graphics</button>
   <button class="ctbutton" value="character_design"># Character Design</button>
