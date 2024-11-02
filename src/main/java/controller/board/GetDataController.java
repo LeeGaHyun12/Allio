@@ -6,25 +6,27 @@ import data.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 public class GetDataController {
 
     @Autowired
     private BoardService boardService;
+
     @Autowired
     private MemberService memberService;
 
     @GetMapping("/getData")
-    public BoardDto getData(@RequestParam("num") int num) {
+    public BoardDto getData(@RequestParam(value = "num",defaultValue = "0") int num) {
+        System.out.println("num이 "+num);
+        if (num <= 0) {
+            throw new IllegalArgumentException("Invalid num parameter"); // 잘못된 파라미터 처리
+        }
         // num에 해당하는 데이터를 조회하여 반환
         return boardService.getBoardByNum(num);
     }
 
     @GetMapping("/likePost")
-    public String likePost(@RequestParam("num") String num){
+    public String likePost(@RequestParam("num") String num) {
         System.out.println("num");
         System.out.println(num);
         try {
@@ -56,7 +58,5 @@ public class GetDataController {
 //
 //        return map;
 //    }
-
-
 
 }
