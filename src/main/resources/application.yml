@@ -14,8 +14,8 @@ spring:
   # 파일 업로드 설정
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 5000MB
+      max-request-size: 5000MB
 
   # gangsa MySQL 데이터베이스 설정
   datasource:
@@ -49,5 +49,15 @@ mybatis:
   mapper-locations:
     - /mapper/**/*.xml
 
+
+ncp:
+  storage:
+    region: kr-standard
+    endpoint: https://kr.object.ncloudstorage.com
+    accessKey: A252DF814BA7C672CD48
+    secretKey: 46D6404D168813DE822E4CC13C55346DFB47D3E1
+    bucket-name: allio
+
 cos:
   key: cos1234
+
