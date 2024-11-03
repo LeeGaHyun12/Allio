@@ -100,7 +100,7 @@
                     if (data.status == 'success') {
                         location.href = "/board/boardlist";
                     } else {
-                        alert("아이디 또는 비밀번호가 맞지 않습니다");
+                        alert("<fmt:message key='login.error' />");
                     }
                 }
             });
@@ -110,30 +110,26 @@
 </script>
 <body style="background-image: url('/image/ backgroundimg.jpg'); background-size: cover; background-position: center;">
 <div>
-    <%--<img src="/image/backgroundimg.jpg" style="width: 50%;">--%>
     <div class="container">
         <div class="title" onclick="location.href='/board/boardlist'">Allio</div>
-        <h3 class="text-center mb-4">로그인</h3>
-        <form id="loginfrm" action="<%=request.getContextPath()%>/member/login" method="get"
-              enctype="multipart/form-data">
+        <h3 class="text-center mb-4"><fmt:message key="login.title" /></h3>
+        <form id="loginfrm" action="<%=request.getContextPath()%>/member/login" method="get" enctype="multipart/form-data">
             <div class="form-group-id" style="width: 300px;">
-                <label for="userId">아이디</label>
-                <input type="text" id="userId" name="userId" class="form-control"
-                       value="${sessionScope.saveid!=null and sessionScope.saveid=='yes'?
-                               sessionScope.loginid:''}" required>
-                <input type="checkbox" id="saveid"
-                       name="saveid" ${sessionScope.saveid=null or sessionScope.saveid=='no'?"":"checked"}>&nbsp;아이디저장
-
+                <label for="userId"><fmt:message key="login.username" /></label>
+                <input type="text" id="userId" name="userId" class="form-control" value="${sessionScope.saveid!=null and sessionScope.saveid=='yes'? sessionScope.loginid:''}" required>
+                <input type="checkbox" id="saveid" name="saveid" ${sessionScope.saveid==null or sessionScope.saveid=='no'?"":"checked"}>&nbsp;<fmt:message key="login.saveId" />
             </div>
 
             <div class="form-group">
-                <label for="passwd">비밀번호</label>
+                <label for="passwd"><fmt:message key="login.password" /></label>
                 <input type="password" id="passwd" name="passwd" class="form-control" required maxlength="8">
             </div>
 
             <div class="form-group text-center">
-                <button id="loginbtn" type="button" class="btn btn-danger btn-block">로그인</button>
-                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=014c858037f00f7a1f3d02e1b378ff3b&redirect_uri=http://localhost:9000/auto/kakao/callback"><img height="38px" src="../image/kakao_login_button.png"/></a>
+                <button id="loginbtn" type="button" class="btn btn-danger btn-block"><fmt:message key="login.button" /></button>
+                <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=014c858037f00f7a1f3d02e1b378ff3b&redirect_uri=http://localhost:9000/auto/kakao/callback">
+                    <img height="38px" src="../image/kakao_login_button.png"/>
+                </a>
             </div>
         </form>
     </div>

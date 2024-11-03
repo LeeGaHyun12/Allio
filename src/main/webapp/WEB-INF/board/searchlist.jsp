@@ -303,8 +303,9 @@
     </c:forEach>
 
     <c:if test="${empty boardList}">
-        <p>검색된 결과가 없습니다.</p>
+        <p><fmt:message key="no_results_found" /></p>
     </c:if>
+
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">

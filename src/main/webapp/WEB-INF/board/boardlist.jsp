@@ -20,6 +20,7 @@
   <style>
     body *{
       font-family: "Nanum Myeongjo", serif
+
     }
 
     .container {
@@ -205,6 +206,32 @@
       color: #333;
       padding: 0 20px;
     }
+
+    .language-switcher {
+      display: flex; /* 버튼들을 가로로 나열 */
+      gap: 10px; /* 버튼 사이의 간격 */
+      position: fixed; /* 고정 위치 */
+      bottom: 20px; /* 화면 아래에서의 거리 */
+      left: 90%; /* 중앙 정렬을 위한 좌측 위치 */
+      transform: translateX(-50%); /* 중앙 정렬을 위한 변환 */
+    }
+
+    .lang-btn {
+      font-size: 14pt; /* 줄인 글자 크기 */
+      background-color: #feb6d3; /* 버튼 배경색 */
+      color: white; /* 글자색 */
+      border: none; /* 테두리 없음 */
+      border-radius: 5px; /* 둥근 모서리 */
+      width: 100px; /* 줄인 버튼 너비 */
+      height: 60px; /* 줄인 버튼 높이 */
+      cursor: pointer; /* 마우스 커서 변경 */
+      transition: background-color 0.3s; /* 배경색 전환 효과 */
+    }
+
+    .lang-btn:hover {
+      background-color: #0056b3; /* 호버 시 배경색 변화 */
+    }
+
 
   </style>
   <script>
@@ -403,7 +430,7 @@
 
     function changeLanguage(locale) {
       console.log(locale);
-      fetch('/changeLanguage?locale='+locale)
+      fetch('/changeLanguage?locale=' + locale)
               .then(response => {
                 if (!response.ok) {
                   throw new Error('Network response was not ok');
@@ -411,16 +438,23 @@
                 return response.json();
               })
               .then(data => {
+                console.log(data);
+                // 모든 요소를 반복하여 각 키에 대해 텍스트를 업데이트
                 document.querySelectorAll('[data-lang]').forEach((element) => {
                   const key = element.getAttribute('data-lang');
-                  element.textContent = data[key];
+                  // 키가 data 객체에 존재하는지 확인
+                  if (data[key]) {
+                    element.textContent = data[key];
+                  } else {
+                    console.warn(`No translation found for key: ${key}`); // 번역이 없을 경우 경고
+                  }
                 });
               })
               .catch(error => {
                 console.error('Error fetching language data:', error);
               });
-
     }
+
 
 
 
@@ -430,28 +464,20 @@
 
 <b class="text" data-lang="explore"><fmt:message key="explore" /></b><br>
 
-<div class="language-switcher">
-  <button onclick="changeLanguage('en')">English</button>
-  <button onclick="changeLanguage('ko')">한국어</button>
-</div>
-
-
 <div class="buttonbox">
-  <b class="text" data-lang="explore"><fmt:message key="explore" /></b><br>
-  <button class="ctbutton" value="graphic_design"># Graphic Design</button>
-  <button class="ctbutton" value="video_motion_graphics"># Video/Motion Graphics</button>
-  <button class="ctbutton" value="character_design"># Character Design</button>
-  <button class="ctbutton" value="digital_art"># Digital Art</button>
-  <button class="ctbutton" value="illustration"># Illustration</button>
-  <button class="ctbutton" value="fine_art"># Fine Art</button>
-  <button class="ctbutton" value="branding_editing"># Branding/Editing</button>
-  <button class="ctbutton" value="ui_ux"># UI/UX</button>
-  <button class="ctbutton" value="product_package_design"># Product/Package Design</button>
-  <button class="ctbutton" value="typography"># Typography</button>
-  <button class="ctbutton" value="photography"># Photography</button>
-  <button class="ctbutton" value="craft"># Craft</button>
+  <button class="ctbutton" data-lang="graphic_design"><fmt:message key="graphic_design" /></button>
+  <button class="ctbutton" data-lang="video_motion_graphics"><fmt:message key="video_motion_graphics" /></button>
+  <button class="ctbutton" data-lang="character_design"><fmt:message key="character_design" /></button>
+  <button class="ctbutton" data-lang="digital_art"><fmt:message key="digital_art" /></button>
+  <button class="ctbutton" data-lang="illustration"><fmt:message key="illustration" /></button>
+  <button class="ctbutton" data-lang="fine_art"><fmt:message key="fine_art" /></button>
+  <button class="ctbutton" data-lang="branding_editing"><fmt:message key="branding_editing" /></button>
+  <button class="ctbutton" data-lang="ui_ux"><fmt:message key="ui_ux" /></button>
+  <button class="ctbutton" data-lang="product_package_design"><fmt:message key="product_package_design" /></button>
+  <button class="ctbutton" data-lang="typography"><fmt:message key="typography" /></button>
+  <button class="ctbutton" data-lang="photography"><fmt:message key="photography" /></button>
+  <button class="ctbutton" data-lang="craft"><fmt:message key="craft" /></button>
 </div>
-
 
 <div class="container">
   <c:forEach var="dto" items="${boardList}">
@@ -543,6 +569,10 @@
       </div>
     </div>
   </div>
+</div>
+<div class="language-switcher">
+  <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+  <button class="lang-btn" onclick="changeLanguage('ko')">한국어</button>
 </div>
 </body>
 </html>

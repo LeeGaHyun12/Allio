@@ -193,76 +193,66 @@
 
 <div class="container">
     <div class="title" onclick="location.href='/board/boardlist'">Allio</div>
-    <h3 class="text-center mb-4">회원 가입</h3>
+    <h3 class="text-center mb-4"><fmt:message key="sign_up_header" /></h3>
     <form action="./insert" method="post" enctype="multipart/form-data" onsubmit="return check()">
         <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" id="name" name="name" class="form-control" required>
+            <label for="name"><fmt:message key="name_label" /></label>
+            <input type="text" id="name" name="name" class="form-control" required />
         </div>
-
-        <div class="form-group-id" style="width: 300px;">
-            <label for="userId">아이디</label>
-            <input type="text" id="userId" name="userId" class="form-control" required style="flex: 1;">
-            &nbsp;
-            <button type="button" class="btn btn-sm btn-danger" id="btncheckid" style="margin-top: 10px; margin-bottom: 5px;">중복확인</button>
-            <div id="userIdMessage" class="text-danger mt-2"></div> <!-- 아이디 중복 확인 메시지 -->
-        </div>
-
         <div class="form-group">
-            <label for="email">이메일</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-            <button type="button" class="btn btn-sm btn-danger" id="btncheckEmail" style="margin-top: 10px; margin-left: 5px">이메일 인증</button>
-            <div id="emailMessage" class="text-danger mt-2"></div> <!-- 이메일 인증 메시지 -->
+            <label for="userId"><fmt:message key="id_label" /></label>
+            <input type="text" id="userId" name="userId" class="form-control" required />
+            <button type="button" id="btncheckid" class="btn btn-danger"><fmt:message key="check_id_btn" /></button>
+            <span id="userIdMessage"></span>
         </div>
-
         <div class="form-group">
-            <label for="email">인증번호</label>
-            <input type="email" id="emailCode" name="emailCode" class="form-control" required>
-            <button type="button" class="btn btn-sm btn-danger" id="btncheckCode" style="margin-top: 10px; margin-left: 5px">인증번호 확인</button>
-            <div id="codeMessage" class="text-danger mt-2"></div> <!-- 인증번호 확인 메시지 -->
+            <label for="email"><fmt:message key="email_label" /></label>
+            <input type="email" id="email" name="email" class="form-control" required />
+            <button type="button" id="btncheckEmail" class="btn btn-danger"><fmt:message key="send_email_btn" /></button>
+            <span id="emailMessage"></span>
         </div>
-
-
         <div class="form-group">
-            <label for="passwd">비밀번호</label>
-            <input type="password" id="passwd" name="passwd" class="form-control" required maxlength="8">
+            <label for="emailCode"><fmt:message key="verification_code_label" /></label>
+            <input type="text" id="emailCode" name="emailCode" class="form-control" required />
+            <button type="button" id="btncheckCode" class="btn btn-danger"><fmt:message key="check_code_btn" /></button>
+            <span id="codeMessage"></span>
         </div>
-
-        <div class="form-profile" style="width: 300px;">
+        <div class="form-group">
+            <label for="category"><fmt:message key="category_label" /></label>
+            <select id="category" name="category" class="form-control" required>
+                <option value=""><fmt:message key="select_category" /></option>
+                <option value="인문학"><fmt:message key="category_humanities" /></option>
+                <option value="의료 및 건강"><fmt:message key="category_health" /></option>
+                <option value="공학"><fmt:message key="category_engineering" /></option>
+                <option value="자연과학"><fmt:message key="category_natural_science" /></option>
+                <option value="예술 및 디자인"><fmt:message key="category_art_design" /></option>
+                <option value="체육 및 스포츠"><fmt:message key="category_sports" /></option>
+                <option value="음악"><fmt:message key="category_music" /></option>
+                <option value="정보기술"><fmt:message key="category_information_technology" /></option>
+                <option value="비즈니스 및 경제"><fmt:message key="category_business_economics" /></option>
+                <option value="법률"><fmt:message key="category_law" /></option>
+            </select>
+        </div>
+        <div id="subcategory-container" class="form-group" style="display: none;">
+            <label for="subcategory"><fmt:message key="subcategory_label" /></label>
+            <select id="subcategory" name="subcategory" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label for="password"><fmt:message key="password_label" /></label>
+            <input type="password" id="password" name="password" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword"><fmt:message key="confirm_password_label" /></label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="myfile"><fmt:message key="profile_image_label" /></label>
+            <input type="file" id="myfile" name="myfile" accept="image/*" class="form-control" />
             <div class="form-profile-img">
-                <img src="" id="showimg1" style="width: 100px; margin: 10px;" onerror="this.src='../image/saram.png'" class="rounded-circle">
-                <input type="file" id="myfile" name="myfile" class="form-control" required style="width: 300px;">
+                <img id="showimg1" src="#" alt="Preview" style="display: none; max-width: 100%;" />
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="category">분야</label>
-            <select id="category" name="category" class="form-control" required>
-                <option value="">선택하세요</option>
-                <option value="인문학">인문학</option>
-                <option value="의료 및 건강">의료 및 건강</option>
-                <option value="공학">공학</option>
-                <option value="자연과학">자연과학</option>
-                <option value="예술 및 디자인">예술 및 디자인</option>
-                <option value="체육 및 스포츠">체육 및 스포츠</option>
-                <option value="음악">음악</option>
-                <option value="정보기술">정보기술</option>
-                <option value="비즈니스 및 경제">비즈니스 및 경제</option>
-                <option value="법률">법률</option>
-            </select>
-        </div>
-
-
-        <div class="form-group" id="subcategory-container" style="display:none;">
-            <label for="subcategory">세부 분야</label>
-            <select id="subcategory" name="subcategory" class="form-control">
-                <!-- 동적으로 생성될 세부 분야 -->
-            </select>
-        </div>
-
-        <div class="form-group text-center">
-            <button type="submit" class="btn btn-danger btn-block">회원가입</button>
-        </div>
+        <button type="submit" class="btn btn-danger btn-block"><fmt:message key="sign_up_btn" /></button>
     </form>
 </div>
 
