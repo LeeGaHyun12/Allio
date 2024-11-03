@@ -124,9 +124,9 @@
     }
 
     .buttonbox {
+
       display: flex;
       overflow-x: auto;
-      margin-top: 20px;
     }
 
     .buttonbox::-webkit-scrollbar {
@@ -467,11 +467,24 @@
       images.each(function() {
         const imgSrc = $(this).attr('src');
         console.log('Image source:', imgSrc);
+
+        // 파일 확장자 추출
+        let format;
+        const extensionMatch = imgSrc.match(/\.(png|jpg|jpeg)$/i);
+
+        if (extensionMatch) {
+          const extension = extensionMatch[1].toLowerCase();
+          format = (extension === 'png') ? 'PNG' : 'JPEG';
+        } else {
+          // 확장자가 없는 경우 기본 형식을 JPEG로 설정
+          format = 'JPEG';
+        }
+
         const imgPromise = new Promise((resolve, reject) => {
           const img = new Image();
           img.src = imgSrc;
           img.onload = () => {
-            doc.addImage(imgSrc, 'JPEG', 10, yOffset, 180, 160);
+            doc.addImage(imgSrc, format, 10, yOffset, 180, 160);
             yOffset += 170;
             resolve();
           };
@@ -489,15 +502,13 @@
               });
     });
 
-
-
-
   </script>
 </head>
 <body>
 
-<b class="text" data-lang="explore"><fmt:message key="explore" /></b><br>
-
+<b class="text" data-lang="explore" style="margin-top: 200px; display: block;">
+  <fmt:message key="explore" />
+</b><br>
 <div class="buttonbox">
   <button class="ctbutton" data-lang="graphic_design"><fmt:message key="graphic_design" /></button>
   <button class="ctbutton" data-lang="video_motion_graphics"><fmt:message key="video_motion_graphics" /></button>
@@ -532,7 +543,6 @@
       </div>
     </div>
   </c:forEach>
-
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">

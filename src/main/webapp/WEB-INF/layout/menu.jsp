@@ -64,7 +64,17 @@
             transform: translateY(2px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        /* 반응형 조정 */
+        @media (max-width: 768px) {
+            .write > b {
+                font-size: 8vw; /* 작은 화면에서 더 큰 텍스트 크기 */
+            }
 
+            .btnwrite {
+                width: 80%; /* 작은 화면에서는 버튼을 80% 너비로 조정 */
+                font-size: 1.2rem; /* 작은 화면에서 글자 크기 감소 */
+            }
+        }
 
     </style>
 </head>
@@ -75,8 +85,8 @@
         <div class="writebox">
         <button class="btnwrite" onclick="location.href='/board/writeform'" data-lang="get_started_button"><fmt:message key="get_started_button" /></button>
     </div>
-
     </div>
+
 </div>
 </body>
 </html>

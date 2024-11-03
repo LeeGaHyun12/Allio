@@ -2,6 +2,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -255,10 +256,11 @@
     <div class="portfolio_item">
         <c:forEach var="p" items="${portfolio}">
             <div class="pbox">
-                <img src="../portfolio/${p.port_photo}" class="portfolio_image">
-                <div class="portfolio_text">
-                    <h5 class="text-center">${p.port_title}</h5>
-                    <p class="text-center">${p.port_desc}</p>
+
+                <div class="portfolio_photo">
+                    <c:set var="imageUrls" value="${fn:split(portfolio.port_photo, ',')}" />
+                    <img src="${imageUrls[0]}" class="portfolio_image" onerror="this.onerror=null; this.src='default_image_url.jpg';"> <!-- 기본 이미지 설정 -->
+
                 </div>
             </div>
         </c:forEach>

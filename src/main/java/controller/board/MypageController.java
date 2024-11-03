@@ -25,10 +25,10 @@ public class MypageController {
         if (loginId != null) {
             MemberDto dto = memberService.getDataById(loginId);
             model.addAttribute("dto", dto);
-
+            System.out.println("dto = " + dto);
             List<BoardDto> portfolioList = memberService.getBoardByUserId(loginId);
             model.addAttribute("portfolioList", portfolioList);
-
+            System.out.println("portfolioList = " + portfolioList);
             return "board/mypageform";
         } else {
             return "redirect:/member/login";

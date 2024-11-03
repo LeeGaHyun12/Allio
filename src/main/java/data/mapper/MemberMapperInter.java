@@ -40,6 +40,9 @@ public interface MemberMapperInter {
 			""")
     public int isLoginCheck( String userId, String passwd);
 
+    @Select("select name from allio_user where userId=#{userId}")
+    public String getUserName(String userId);
+
     @Select("select prof_photo from allio_user where userId=#{port_Id}")
     public MemberDto getProfPhoto(String port_Id);
 
