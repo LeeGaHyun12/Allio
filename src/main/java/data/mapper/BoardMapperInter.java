@@ -37,7 +37,7 @@ public interface BoardMapperInter {
 	@Select("select * from allio_user where num")
 	MemberDto getUserData(@Param("num") int num);
 
-	@Select("SELECT * FROM allio_user WHERE userId = #{userId}")
+	@Select("SELECT * FROM allio_board WHERE userId = #{userId}")
 	List<BoardDto> getBoardByUserId(String userId);
 
 

@@ -192,7 +192,7 @@
         <div class="signup"><button class="btnsignup" data-lang="sign_up" onclick="location.href='/member/form'"><fmt:message key="sign_up" /></button></div>
         </c:if>
         <c:if test="${sessionScope.loginok!=null}">
-            <b class="nickname">${sessionScope.loginid}님</b>
+            <b class="nickname">${sessionScope.userName}님</b>
             <img src="../profile/${dto.prof_photo}" class="rounded-circle">
             <div class="logout"><button type="button" id="btnlogout" data-lang="logout" style="margin-left: 20px;" class="btnlogout"><fmt:message key="logout" /></button></div>
 

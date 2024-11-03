@@ -56,6 +56,8 @@ public class LoginController {
             session.setAttribute("loginok","yes");
             session.setAttribute("loginid",userId);
 
+            String userName = memberService.getUserName(userId);
+            session.setAttribute("userName", userName);
         }else{
             //아이디와 비번이 틀린 경우
             map.put("status","fail");

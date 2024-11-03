@@ -63,6 +63,10 @@ public class MemberService {
     }
 
 
+    public String getUserName(String userId){
+        return memInter.getUserName(userId);
+    }
+
     public MemberDto getProfPhoto(String port_Id){
         return memInter.getProfPhoto(port_Id);
     }
