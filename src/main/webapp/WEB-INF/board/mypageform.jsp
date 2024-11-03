@@ -29,80 +29,73 @@
             align-items: center; /* 수직 중앙 정렬 */
         }
 
-        div.title {
+        .title {
             color: black;
             font-size: 70px;
             cursor: pointer;
             font-family: "Nanum Myeongjo", serif;
         }
-        .write{
+
+        .write {
             color: white;
-            width: 150px;
-            height: 120px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             margin-left: auto;
             margin-right: 20px;
         }
-        .btnwrite{
-            width: 100%;
+
+        .btnwrite {
+            width: 150px;
             height: 50px;
-            color:white;
+            color: white;
             background-color: #fe3164;
             font-size: 22px;
-            border:none;
+            border: none;
             border-radius: 35px;
-            transition:0.3s;
-            display: flex; /* 버튼 안의 내용물을 가로 중앙 정렬하기 위해 추가 */
-            justify-content: center; /* 버튼 안의 내용물을 가로 중앙 정렬하기 위해 추가 */
-            align-items: center; /* 버튼 안의 내용물을 세로 중앙 정렬하기 위해 추가 */
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .photo{
-            top: 200px;
+        .photo {
             width: 100%;
-            height: 50%;
+            height: 50vh; /* Viewport height로 변경 */
             background-image: url("/image/photo5.jpg");
-            background-size: cover; /* 이미지를 비율에 맞게 늘리거나 축소합니다. */
-            background-position: center; /* 이미지를 수평 및 수직으로 가운데로 정렬합니다. */
+            background-size: cover;
+            background-position: center;
         }
 
         .profile {
-            position: absolute; /* 상대적 위치 설정 */
-            top: 200px; /* photo div의 위에 50px만큼 띄움 */
-            left: 90px; /* 좌측 여백 설정 */
+            position: absolute;
+            top: 150px; /* 여유 공간 확보 */
+            left: 5%; /* 상대적인 여백 설정 */
             width: 30%; /* 너비 설정 */
-            height: 120%; /* 높이 설정 */
             background-color: white;
             border: 1px solid gray;
             border-radius: 20px;
+            padding: 10px; /* 여백 추가 */
         }
 
         .profile_box {
-            margin-top: 1px;
             text-align: center;
-            height: 35%; /* 높이를 설정합니다. */
-            display: flex; /* 플렉스박스를 사용합니다. */
-            flex-direction: column; /* 아이템을 세로로 배치합니다. */
-            justify-content: center; /* 수직으로 중앙 정렬합니다. */
-            align-items: center; /* 수평으로 중앙 정렬합니다. */
-
+            height: auto; /* 자동 높이 조정 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .profile_photo {
-            width: 180px; /* 너비를 설정합니다. */
-            height: 180px; /* 높이를 설정합니다. */
-            border-radius: 50%; /* 원형으로 만듭니다. */
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
         }
 
         .profile_image {
-            width: 180px; /* 원하는 너비로 조정 */
-            height: 180px; /* 원하는 높이로 조정 */
-            border-radius: 50%; /* 원형으로 모양 조정 */
-            object-fit: cover; /* 이미지가 요소에 맞게 맞춰지도록 설정 */
+            width: 100%; /* 부모 요소에 맞게 조정 */
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
-
 
         .email {
             font-size: 20px;
@@ -115,23 +108,19 @@
             color: black;
         }
 
-
-        .portfolio_text{
+        .portfolio_text {
             font-size: 20px;
         }
 
-
-
-
         .info-text {
-            margin-top: 20px; /* 버튼과 텍스트 간의 간격 설정 */
+            margin-top: 20px;
             text-align: center;
-            color: black; /* 텍스트 색상 설정 */
-            display: flex; /* Flexbox를 사용하여 자식 요소들을 중앙 정렬합니다. */
-            flex-direction: column; /* 자식 요소들을 세로로 배치합니다. */
-            align-items: center; /* 자식 요소들을 수평 중앙 정렬합니다. */
-            justify-content: center; /* 자식 요소들을 수직 중앙 정렬합니다. */
-            padding: 20px; /* 내부 여백을 설정합니다. */
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             font-size: 22px;
         }
 
@@ -146,14 +135,12 @@
             justify-content: center;
             align-items: center;
             margin-top: 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* 그림자 효과 추가 */
         }
 
-        .portfolio{
-            width: 60%; /* 크기를 더 크게 조절 */
-            height: 100%; /* 크기를 더 크게 조절 */
-            position: absolute; /* 포지션을 설정하여 상위 요소에 대해 절대적으로 위치시킴 */
-            right: 60px; /* 오른쪽으로 정렬 */
+        .portfolio {
+            width: 60%;
+            position: absolute;
+            right: 60px;
             padding: 20px;
         }
 
@@ -164,11 +151,10 @@
         }
 
         .portfolio_item {
-            display: flex; /* 포트폴리오 아이템을 가로로 나란히 정렬합니다. */
-            flex-wrap: wrap; /* 포트폴리오 아이템을 세로로 가운데 정렬합니다. */
+            display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             width: auto;
-
         }
 
         .pbox {
@@ -180,22 +166,47 @@
         }
 
         .portfolio_photo {
-            width: 250px;
-            height: 250px;
+            width: 100%; /* 부모 요소의 100%를 차지하도록 설정 */
+            height: auto; /* 자동 높이 조정 */
             margin-bottom: 10px;
             border: 1px solid white;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .portfolio_image{
-            width: 100%; /* 이미지가 부모 요소의 100%를 차지하도록 설정합니다 */
-            height: 100%; /* 이미지가 부모 요소의 100%를 차지하도록 설정합니다 */
-            object-fit: cover; /* 이미지를 비율을 유지하면서 부모 요소에 맞춰 잘라내기 */
-
         }
 
+        .portfolio_image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
 
+        /* 반응형 디자인을 위한 미디어 쿼리 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 40px; /* 모바일에서 글자 크기 조정 */
+            }
 
+            .profile {
+                width: 80%; /* 모바일에서 프로필 너비 조정 */
+                left: 10%; /* 여백 조정 */
+                top: 120px; /* 여백 조정 */
+            }
+
+            .portfolio {
+                width: 90%; /* 모바일에서 포트폴리오 너비 조정 */
+                right: 5%; /* 여백 조정 */
+            }
+
+            .btnwrite {
+                width: 100%; /* 모바일에서 버튼 너비 조정 */
+            }
+
+            .infobtn {
+                width: 100%; /* 버튼 너비 조정 */
+            }
+
+            .pbox {
+                width: calc(100% - 10px); /* 모바일에서 포트폴리오 아이템 너비 조정 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -210,7 +221,6 @@
 </div>
 <div class="photo">
     <div class="profile">
-        <!-- 프로필 내용 -->
         <div class="profile_box">
             <div class="profile_photo">
                 <img src="../profile/${dto.prof_photo}" class="profile_image">
@@ -227,32 +237,31 @@
                 <i class="bi bi-chat-dots-fill"></i>&nbsp;<fmt:message key="suggest_button" />
             </button>
         </div>
-        <div class="info-text" style="height: 300px">
+        <div class="info-text" style="height: auto">
             <b><fmt:message key="website" /></b>
             <button class="infobtn" style="background-color: #4267B2; width: 250px">
                 <i class="bi bi-facebook"></i>&nbsp; Facebook
             </button>
-            <button class="infobtn" style="background-color: #833AB4; width: 250px">
-                <i class="bi bi-instagram"></i>&nbsp; Instagram
-            </button>
             <button class="infobtn" style="background-color: #1DA1F2; width: 250px">
                 <i class="bi bi-twitter"></i>&nbsp; Twitter
+            </button>
+            <button class="infobtn" style="background-color: #E1306C; width: 250px">
+                <i class="bi bi-instagram"></i>&nbsp; Instagram
             </button>
         </div>
     </div>
 </div>
 <div class="portfolio">
-    <div class="section-title"><fmt:message key="work_likes_collections" /></div>
-    <hr>
-    <div class="section-title"><fmt:message key="work_list" /></div>
+    <div class="section-title">Portfolio</div>
     <div class="portfolio_item">
-        <c:forEach var="portfolio" items="${portfolioList}">
+        <c:forEach var="p" items="${portfolio}">
             <div class="pbox">
+
                 <div class="portfolio_photo">
                     <c:set var="imageUrls" value="${fn:split(portfolio.port_photo, ',')}" />
                     <img src="${imageUrls[0]}" class="portfolio_image" onerror="this.onerror=null; this.src='default_image_url.jpg';"> <!-- 기본 이미지 설정 -->
+
                 </div>
-                <div class="portfolio_text" style="font-size: 15px">&nbsp;${portfolio.subject}</div>
             </div>
         </c:forEach>
     </div>
