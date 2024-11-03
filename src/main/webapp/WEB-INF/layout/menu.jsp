@@ -70,10 +70,12 @@
 </head>
 <body>
 <div class="container">
-    <div class="write"><b class="Create you">Create your</b><br><b>portfolio and designs</b>
+    <div class="write"><b class="Create you" data-lang="create_portfolio_text"><fmt:message key="create_portfolio_text" /></b><br><br>
+        <b data-lang="portfolio_and_designs"><fmt:message key="portfolio_and_designs" /></b>
         <div class="writebox">
-        <button class="btnwrite" onclick="location.href='/board/writeform'">Get started</button>
+        <button class="btnwrite" onclick="location.href='/board/writeform'" data-lang="get_started_button"><fmt:message key="get_started_button" /></button>
     </div>
+
     </div>
 </div>
 </body>

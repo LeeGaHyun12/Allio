@@ -201,7 +201,11 @@
 <c:set var="userid" value="${param.userid}"/>
 <div class="header">
     <div class="title" onclick="location.href='/board/boardlist'">Allio</div>
-    <div class="write"><button class="btnwrite" onclick="location.href='/board/writeform'">Get started</button></div>
+    <div class="write">
+        <button class="btnwrite" data-lang="get_started_button" onclick="location.href='/board/writeform'">
+            <fmt:message key="get_started_button" />
+        </button>
+    </div>
 </div>
 <div class="photo">
     <div class="profile">
@@ -210,32 +214,36 @@
             <div class="profile_photo">
                 <img src="../profile/${dto.prof_photo}" class="profile_image">
             </div>
-                <b class="name">${dto.name}</b>
-                <h class="email">${dto.email}</h>
+            <b class="name">${dto.name}</b>
+            <h class="email">${dto.email}</h>
         </div>
         <div class="info-text">
-            <b>팔로우&채팅</b>
-            <button class="infobtn" style="background-color: #ea4c89"><i class="bi bi-bookmark-heart-fill"></i>&nbsp;팔로우</button>
-            <button class="infobtn" style="background-color: #1bcad3"><i class="bi bi-chat-dots-fill"></i>&nbsp; 제안하기</button>
+            <b><fmt:message key="follow_chat" /></b>
+            <button class="infobtn" style="background-color: #ea4c89">
+                <i class="bi bi-bookmark-heart-fill"></i>&nbsp;<fmt:message key="follow_button" />
+            </button>
+            <button class="infobtn" style="background-color: #1bcad3">
+                <i class="bi bi-chat-dots-fill"></i>&nbsp;<fmt:message key="suggest_button" />
+            </button>
         </div>
         <div class="info-text" style="height: 300px">
-            <b>웹사이트</b>
-            <button class="infobtn" style="background-color: #4267B2; width: 250px"> <!-- Facebook 버튼 -->
+            <b><fmt:message key="website" /></b>
+            <button class="infobtn" style="background-color: #4267B2; width: 250px">
                 <i class="bi bi-facebook"></i>&nbsp; Facebook
             </button>
-            <button class="infobtn" style="background-color: #833AB4; width: 250px"> <!-- Instagram 버튼 -->
+            <button class="infobtn" style="background-color: #833AB4; width: 250px">
                 <i class="bi bi-instagram"></i>&nbsp; Instagram
             </button>
-            <button class="infobtn" style="background-color: #1DA1F2; width: 250px"> <!-- Twitter 버튼 -->
+            <button class="infobtn" style="background-color: #1DA1F2; width: 250px">
                 <i class="bi bi-twitter"></i>&nbsp; Twitter
             </button>
         </div>
     </div>
 </div>
 <div class="portfolio">
-    <div class="section-title">작업 / 좋아요 / 컬렉션</div>
-    <hr> <!-- 회색줄 한 줄 긋기 -->
-    <div class="section-title">작업 리스트</div>
+    <div class="section-title"><fmt:message key="work_likes_collections" /></div>
+    <hr>
+    <div class="section-title"><fmt:message key="work_list" /></div>
     <div class="portfolio_item">
         <c:forEach var="portfolio" items="${portfolioList}">
             <div class="pbox">
@@ -246,8 +254,6 @@
             </div>
         </c:forEach>
     </div>
-
-
 </div>
 </body>
 </html>

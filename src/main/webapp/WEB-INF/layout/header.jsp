@@ -188,13 +188,13 @@
         </div>
 
         <c:if test="${sessionScope.loginok==null}">
-        <div class="login"><button class="btnlogin" onclick="location.href='/member/loginform'">login</button></div>
-        <div class="signup"><button class="btnsignup" onclick="location.href='/member/form'">sign up</button></div>
+        <div class="login"><button class="btnlogin" data-lang="login" onclick="location.href='/member/loginform'"><fmt:message key="login" /></button></div>
+        <div class="signup"><button class="btnsignup" data-lang="sign_up" onclick="location.href='/member/form'"><fmt:message key="sign_up" /></button></div>
         </c:if>
         <c:if test="${sessionScope.loginok!=null}">
             <b class="nickname">${sessionScope.loginid}님</b>
             <img src="../profile/${dto.prof_photo}" class="rounded-circle">
-            <div class="logout"><button type="button" id="btnlogout" style="margin-left: 20px;" class="btnlogout">logout</button></div>
+            <div class="logout"><button type="button" id="btnlogout" data-lang="logout" style="margin-left: 20px;" class="btnlogout"><fmt:message key="logout" /></button></div>
 
         </c:if>
     </div>

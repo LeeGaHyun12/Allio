@@ -106,52 +106,52 @@
 <form action="./upload" method="post" enctype="multipart/form-data">
     <div class="title" onclick="location.href='/board/boardlist'">Allio</div>
     <fieldset>
-        <legend>게시물 작성</legend>
+        <legend><fmt:message key="post_creation_legend" /></legend>
 
         <div class="form-control">
-            <label for="subject">제목</label>
-            <input type="text" id="subject" name="subject" placeholder="Enter your name" required />
+            <label for="subject"><fmt:message key="title_label" /></label>
+            <input type="text" id="subject" name="subject" placeholder="<fmt:message key='title_placeholder' />" required />
         </div>
 
         <div class="form-control">
-            <label for="upload">파일 업로드</label>
+            <label for="upload"><fmt:message key="file_upload_label" /></label>
             <input type="file" id="upload" name="upload" multiple required />
             <div id="preview-container"></div> <!-- 이미지 및 설명 입력 영역 -->
         </div>
 
         <div class="form-control">
-            <label>분류</label>
+            <label><fmt:message key="category_label2" /></label>
             <div id="category-buttons">
-                <button type="button" class="category-btn" data-value="인문학">인문학</button>
-                <button type="button" class="category-btn" data-value="의료 및 건강">의료 및 건강</button>
-                <button type="button" class="category-btn" data-value="공학">공학</button>
-                <button type="button" class="category-btn" data-value="자연과학">자연과학</button>
-                <button type="button" class="category-btn" data-value="예술 및 디자인">예술 및 디자인</button>
-                <button type="button" class="category-btn" data-value="체육 및 스포츠">체육 및 스포츠</button>
-                <button type="button" class="category-btn" data-value="음악">음악</button>
-                <button type="button" class="category-btn" data-value="정보기술">정보기술</button>
-                <button type="button" class="category-btn" data-value="비즈니스 및 경제">비즈니스 및 경제</button>
-                <button type="button" class="category-btn" data-value="법률">법률</button>
+                <button type="button" class="category-btn" data-value="인문학"><fmt:message key="category_humanities" /></button>
+                <button type="button" class="category-btn" data-value="의료 및 건강" ><fmt:message key="category_health" /></button>
+                <button type="button" class="category-btn" data-value="공학"><fmt:message key="category_engineering" /></button>
+                <button type="button" class="category-btn" data-value="자연과학"><fmt:message key="category_natural_science" /></button>
+                <button type="button" class="category-btn" data-value="예술 및 디자인"><fmt:message key="category_art_design" /></button>
+                <button type="button" class="category-btn" data-value="체육 및 스포츠"><fmt:message key="category_sports" /></button>
+                <button type="button" class="category-btn" data-value="음악"><fmt:message key="category_music" /></button>
+                <button type="button" class="category-btn" data-value="정보기술"><fmt:message key="category_information_technology" /></button>
+                <button type="button" class="category-btn" data-value="비즈니스 및 경제"><fmt:message key="category_business_economics" /></button>
+                <button type="button" class="category-btn" data-value="법률"><fmt:message key="category_law" /></button>
             </div>
             <input type="hidden" id="category" name="category" required>
         </div>
 
         <div class="form-control">
-            <label>작업 기간</label>
+            <label><fmt:message key="duration_label" /></label>
             <br/>
-            <label for="startDate">시작일</label>
+            <label for="startDate"><fmt:message key="start_date_label" /></label>
             <input type="date" id="startDate" name="startDate" required>
             <br/>
-            <label for="endDate">종료일</label>
+            <label for="endDate"><fmt:message key="end_date_label" /></label>
             <input type="date" id="endDate" name="endDate" required>
         </div>
 
         <div class="form-control">
-            <label for="content">Contents</label>
-            <textarea id="content" name="content" cols="40" rows="10" placeholder="Enter your portfolio" required></textarea>
+            <label for="content"><fmt:message key="content_label" /></label>
+            <textarea id="content" name="content" cols="40" rows="10" placeholder="<fmt:message key='content_placeholder' />" required></textarea>
         </div>
 
-        <input type="submit" value="작성완료" class="submit-btn" />
+        <input type="submit" value="<fmt:message key='submit_button' />" class="submit-btn" />
     </fieldset>
 </form>
 </body>

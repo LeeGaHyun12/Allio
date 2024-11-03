@@ -106,20 +106,20 @@
     </div>
     </a>
     <div class="banner" id="banner2" style="background-image: url(/image/banner5.jpg)">
-        <p class="banner-text">콘텐츠 마케팅 커리어 스타트 캠프 오픈!</p>
-        <p class="sub-text">특별 이벤트: 오늘 가입하면 할인 혜택 받기</p>
+        <p class="banner-text" data-lang="banner2_text"><fmt:message key="banner2_text" /></p>
+        <p class="sub-text" data-lang="banner2_subtext"><fmt:message key="banner2_subtext" /></p>
     </div>
     <div class="banner" id="banner3" style="background-image: url(/image/banner9.jpg)">
-        <p class="banner-text">스테이블 디퓨전으로 브랜딩 프로젝트 완성하기</p>
-        <p class="sub-text">생성형 AI를 활용한 엔터 브랜딩 스프린트</p>
+        <p class="banner-text" data-lang="banner3_text"><fmt:message key="banner3_text" /></p>
+        <p class="sub-text" data-lang="banner3_subtext"><fmt:message key="banner3_subtext" /></p>
     </div>
     <div class="banner" id="banner4" style="background-image: url(/image/banner11.jpg)">
-        <p class="banner-text">한글 폰트 디자이너를 꿈꾼다면</p>
-        <p class="sub-text">한글 폰트 디자인 워크숍 2기</p>
+        <p class="banner-text" data-lang="banner4_text"><fmt:message key="banner4_text" /></p>
+        <p class="sub-text" data-lang="banner4_subtext"><fmt:message key="banner4_subtext" /></p>
     </div>
     <div class="banner" id="banner5" style="background-image: url(/image/banner10.jpg)">
-        <p class="banner-text">이런 3D 아트웍, 난 언제 만들지?</p>
-        <p class="sub-text">3개월 만에 완성하는 '인스타그래머블 3D 워크숍' 탄셍!</p>
+        <p class="banner-text" data-lang="banner5_text"><fmt:message key="banner5_text" /></p>
+        <p class="sub-text" data-lang="banner5_subtext"><fmt:message key="banner5_subtext" /></p>
     </div>
 </div>
 
