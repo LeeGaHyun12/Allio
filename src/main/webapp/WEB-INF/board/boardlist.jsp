@@ -319,7 +319,7 @@
       });
 
 
-      $('#heartbtn').on("click",function (){
+      $('#heartbtn').on("click", function() {
         // Use the num value stored globally
         let number = $('#portfolio-number').val();
         $.ajax({
@@ -328,12 +328,13 @@
           data: { num: number },
           dataType: "json",
           success: function(data) {
-
-            if (data.success===true) {
+            if (data.success === true) {
               // Update the like count in the UI
-              var $likeCount = $('.box[data-num="' + num + '"]').find('.bi-heart-fill').next('span');
+              var $likeCount = $('.box[data-num="' + number + '"]').find('.bi-heart-fill').next('span');
               var currentCount = parseInt($likeCount.text());
               $likeCount.text(currentCount + 1);
+
+              $('#heartbtn').css('color', 'red'); // 하트를 빨간색으로 변경
             }
           },
           error: function(xhr, status, error) {
@@ -455,6 +456,39 @@
               });
     }
 
+    $(document).on('click', '#download-pdf', function() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const images = $('#portfolio-photo img');
+      let yOffset = 10;
+      let imagePromises = [];
+
+      images.each(function() {
+        const imgSrc = $(this).attr('src');
+        console.log('Image source:', imgSrc);
+        const imgPromise = new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = imgSrc;
+          img.onload = () => {
+            doc.addImage(imgSrc, 'JPEG', 10, yOffset, 180, 160);
+            yOffset += 170;
+            resolve();
+          };
+          img.onerror = reject; // 이미지 로드 실패 시 reject
+        });
+        imagePromises.push(imgPromise);
+      });
+
+      Promise.all(imagePromises)
+              .then(() => {
+                doc.save('portfolio.pdf');
+              })
+              .catch(error => {
+                console.error('Error loading images:', error);
+              });
+    });
+
 
 
 
@@ -513,14 +547,19 @@
         <div id="portfolio-photo">
 
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
         <div class="icon-buttons">
 
           <div class="icon-button" onclick="location.href='/board/mypageform?userId=sup3537'"><img id="profile-photo" src="" alt="Profile Photo" onerror="this.src='../image/K-045.png'"></div>
           <div class="icon-button" style="background-color: #f75172"><i id=heartbtn class="bi bi-heart-fill" style="color: white"></i></div>
           <div class="icon-button" style="background-color: #1bcad3"><i class="bi bi-chat-dots-fill" style="color: white"></i></div>
+          <div class="icon-button">
+            <a href="#" id="download-pdf" style="color: white; text-decoration: none;">
+              <i class="bi bi-file-earmark-pdf" style="font-size: 24px;"></i>
+            </a>
+          </div>
           <div class="icon-button"><i class="bi bi-share-fill"></i></div>
-
         </div>
 
       </div>

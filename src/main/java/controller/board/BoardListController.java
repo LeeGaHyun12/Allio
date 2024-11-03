@@ -41,6 +41,7 @@ public class BoardListController {
     public String boardList(Model model) {
 
         List<BoardDto> boardList = boardService.getAllPortfolios();
+        System.out.println(boardList);
         model.addAttribute("boardList", boardList);
 
         return "board/boardlist";

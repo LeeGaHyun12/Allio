@@ -15,7 +15,7 @@ public interface BoardMapperInter {
 		""")
 	void insertBoard(BoardDto dto);
 
-	@Select("select * from allio_board")
+	@Select("select * from allio_board order by like_count ")
 	List<BoardDto> getAllPortfolios();
 
 	@Select("select * from allio_board where num = #{num}")
