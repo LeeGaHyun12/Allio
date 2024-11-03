@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"controller.*","*.member","data.*","tiles.config","org.example.pp"}) //어노테이션 패키지들
+@ComponentScan({"controller.*","*.member","data.*","tiles.config","org.example.pp","config"}) //어노테이션 패키지들
 @MapperScan("data.mapper")
 public class PpApplication {
 

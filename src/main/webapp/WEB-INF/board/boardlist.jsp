@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -220,17 +221,37 @@
 
       $(document).on('click', '.box', function() {
         var num = $(this).data('num');
+        console.log("Sending num: " + num);
         $.ajax({
           url: '/getData',
           type: 'GET',
           data: { num: num },
           success: function(data) {
+            console.log(data);
             $('#portfolio-number').val(data.num);
-            $('#portfolio-photo').attr('src', '../photo/' + data.port_photo);
+            //$('#portfolio-photo').attr('src',data.port_photo);
             $('#portfolio-subject').text(data.subject);
             $('#portfolio-content').text(data.content);
             $('#portfolio-category').text(data.category);
+            // 포트폴리오 사진 처리
+            if (data.port_photo) {
+              var photoUrls = data.port_photo.split(','); // 쉼표로 구분하여 배열로 변환
+              var photoHtml = ''; // HTML 문자열 초기화
 
+              // 각 URL에 대해 이미지 태그 생성
+              photoUrls.forEach(function(url) {
+                url = url.trim(); // 공백 제거
+                if (url) { // URL이 비어있지 않을 때만 추가
+                  photoHtml += '<img src="' + url + '" alt="Portfolio Photo" style="width:700px;height:auto;"/> ';
+                }
+              });
+              console.log("data.port_photo= "+data.port_photo);
+              console.log("photoHtml= "+photoHtml);
+              // 모달에 이미지 추가
+              $('#portfolio-photo').html(photoHtml); // 포트폴리오 사진 영역에 이미지 HTML 추가
+            } else {
+              $('#portfolio-photo').html('<p>No photos available.</p>'); // 사진이 없을 경우 메시지
+            }
             $('#myModal').modal('show');
           },
           error: function(xhr, status, error) {
@@ -435,7 +456,7 @@
 <div class="container">
   <c:forEach var="dto" items="${boardList}">
     <div class="box" data-num="${dto.num}" data-category="${dto.category}">
-      <div class="box_background"><img src="../photo/${dto.port_photo}"></div>
+      <div class="box_background"> <img src="${fn:split(dto.port_photo, ',')[0]}" alt="Thumbnail" style="width: 100%; height: 100%;"></div>
 
       <div class="content">
         <p class="userId" style="margin: 0;">${dto.userId}</p>
@@ -463,7 +484,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="portfolio-details">
-        <img id="portfolio-photo" src="" alt="Portfolio Photo">
+        <div id="portfolio-photo">
+
+        </div>
+
         <div class="icon-buttons">
 
           <div class="icon-button" onclick="location.href='/board/mypageform?userId=sup3537'"><img id="profile-photo" src="" alt="Profile Photo" onerror="this.src='../image/K-045.png'"></div>
