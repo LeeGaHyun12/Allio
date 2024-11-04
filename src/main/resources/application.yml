@@ -76,6 +76,7 @@ ncp:
     allowed-header:
       - "*"
     max-age: 3000
+
 cos:
   key: cos1234
 
