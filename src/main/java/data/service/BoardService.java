@@ -33,6 +33,7 @@ public class BoardService {
 
 
     public List<BoardDto> getAllPortfolios() {
+        System.out.println(svInter.getAllPortfolios());
         return svInter.getAllPortfolios();
     }
 
