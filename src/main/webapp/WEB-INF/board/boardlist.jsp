@@ -286,6 +286,60 @@
           }
         });
 
+        document.getElementById('comment-button').addEventListener('click', function() {
+          // 댓글 모달 표시
+          const commentModal = new bootstrap.Modal(document.getElementById('comment-modal'));
+          commentModal.show();
+        });
+        document.getElementById('submit-comment').addEventListener('click', function() {
+          const content = document.getElementById('comment-content').value;
+          const num = 1; // 게시글 번호는 실제 게시글 번호로 변경 필요
+
+          // AJAX 요청
+          fetch('/board/ainsert', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+              num: num,
+              content: content
+            })
+          })
+                  .then(response => {
+                    if (response.ok) {
+                      // 댓글 입력 후 UI 업데이트
+                      loadComments(num); // 댓글 목록 로드 함수 호출
+                      document.getElementById('comment-content').value = ''; // 입력란 비우기
+                      // 모달 닫기
+                      const commentModal = bootstrap.Modal.getInstance(document.getElementById('comment-modal'));
+                      commentModal.hide();
+                    } else {
+                      alert('댓글 작성에 실패했습니다.');
+                    }
+                  })
+                  .catch(error => console.error('Error:', error));
+        });
+
+// 댓글 목록 로드 함수
+        function loadComments(num) {
+          fetch(`/board/alist?num=${num}`)
+                  .then(response => response.json())
+                  .then(comments => {
+                    const commentList = document.getElementById('comment-list');
+                    commentList.innerHTML = ''; // 기존 댓글 초기화
+                    comments.forEach(comment => {
+                      const commentElement = document.createElement('div');
+                      commentElement.textContent = `${comment.writer}: ${comment.content}`;
+                      commentList.appendChild(commentElement);
+                    });
+                  });
+        }
+
+// 페이지 로드 시 댓글 목록 자동으로 불러오기
+        window.onload = function() {
+          loadComments(num); // 게시글 번호에 맞게 수정
+        };
 
         $.ajax({
           url: '/increaseCount',
@@ -563,7 +617,7 @@
 
           <div class="icon-button" onclick="location.href='/board/mypageform?userId=sup3537'"><img id="profile-photo" src="" alt="Profile Photo" onerror="this.src='../image/K-045.png'"></div>
           <div class="icon-button" style="background-color: #f75172"><i id=heartbtn class="bi bi-heart-fill" style="color: white"></i></div>
-          <div class="icon-button" style="background-color: #1bcad3"><i class="bi bi-chat-dots-fill" style="color: white"></i></div>
+          <div class="icon-button" style="background-color: #1bcad3" ><i id="comment-button" class="bi bi-chat-dots-fill" style="color: white"></i></div>
           <div class="icon-button">
             <a href="#" id="download-pdf" style="color: white; text-decoration: none;">
               <i class="bi bi-file-earmark-pdf" style="font-size: 24px;"></i>
@@ -596,6 +650,24 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" onclick="copyShareUrl()">Copy Link</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 댓글 모달 -->
+<div id="comment-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">댓글 입력</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea id="comment-content" placeholder="댓글을 입력하세요" style="width: 100%; height: 100px;"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button id="submit-comment" class="btn btn-primary">댓글 작성</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
