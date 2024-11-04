@@ -124,9 +124,9 @@
     }
 
     .buttonbox {
-
       display: flex;
       overflow-x: auto;
+      margin-top: 20px;
     }
 
     .buttonbox::-webkit-scrollbar {
@@ -256,7 +256,6 @@
           success: function(data) {
             console.log(data);
             $('#portfolio-number').val(data.num);
-            //$('#portfolio-photo').attr('src',data.port_photo);
             $('#portfolio-subject').text(data.subject);
             $('#portfolio-content').text(data.content);
             $('#portfolio-category').text(data.category);
@@ -285,6 +284,91 @@
             console.error(xhr.responseText);
           }
         });
+
+        <%--// 댓글 모달 표시--%>
+        <%--document.getElementById('comment-button').addEventListener('click', function() {--%>
+        <%--  const commentModal = new bootstrap.Modal(document.getElementById('comment-modal'));--%>
+        <%--  commentModal.show();--%>
+
+        <%--  const numStr = $('#portfolio-number').val(); // 게시물 번호 가져오기--%>
+
+        <%--  // numStr 유효성 체크--%>
+        <%--  if (!numStr || isNaN(numStr)) {--%>
+        <%--    console.error("Invalid 'num' value:", numStr);--%>
+        <%--    return; // 유효하지 않으면 함수 종료--%>
+        <%--  }--%>
+
+        <%--  const num = parseInt(numStr, 10); // 문자열을 정수로 변환--%>
+        <%--  loadComments(num); // 댓글 목록 로드--%>
+        <%--});--%>
+
+        <%--// 댓글 작성 버튼 클릭 이벤트--%>
+        <%--document.getElementById('submit-comment').addEventListener('click', function() {--%>
+        <%--  const content = document.getElementById('comment-content').value;--%>
+        <%--  const num = parseInt($('#portfolio-number').val());--%>
+
+        <%--  // AJAX 요청--%>
+        <%--  fetch('/board/ainsert', {--%>
+        <%--    method: 'POST',--%>
+        <%--    headers: {--%>
+        <%--      'Content-Type': 'application/x-www-form-urlencoded'--%>
+        <%--    },--%>
+        <%--    body: new URLSearchParams({--%>
+        <%--      num: num,--%>
+        <%--      content: content--%>
+        <%--    })--%>
+        <%--  })--%>
+        <%--          .then(response => {--%>
+        <%--            if (response.ok) {--%>
+        <%--              // 댓글 입력 후 UI 업데이트--%>
+        <%--              loadComments(num); // 댓글 목록 로드 함수 호출--%>
+        <%--              document.getElementById('comment-content').value = ''; // 입력란 비우기--%>
+        <%--              // 모달 닫기--%>
+        <%--              const commentModal = bootstrap.Modal.getInstance(document.getElementById('comment-modal'));--%>
+        <%--            } else {--%>
+        <%--              alert('댓글 작성에 실패했습니다.');--%>
+        <%--            }--%>
+        <%--          })--%>
+        <%--          .catch(error => console.error('Error:', error));--%>
+        <%--});--%>
+
+
+        <%--// 댓글 목록 로드 함수--%>
+        <%--function loadComments(num) {--%>
+        <%--  console.log("num 타입:", typeof num);--%>
+        <%--  const intNum = parseInt(num, 10); // 공백 제거 후 변환--%>
+        <%--  console.log("intNum 타입:", typeof intNum);--%>
+        <%--  console.log("intNum:"+intNum);--%>
+        <%--  console.log("Loading comments for num:", intNum); // 정수 로그--%>
+
+        <%--  if (isNaN(intNum)) { // intNum이 유효한지 확인--%>
+        <%--    console.error("유효하지 않은 'num' 값:", num);--%>
+        <%--    return;--%>
+        <%--  }--%>
+
+        <%--  fetch(`/board/alist?num=${intNum}`)--%>
+        <%--          .then(response => {--%>
+        <%--            if (!response.ok) {--%>
+        <%--              throw new Error("댓글 가져오기 실패");--%>
+        <%--            }--%>
+        <%--            return response.json();--%>
+        <%--          })--%>
+        <%--          .then(comments => {--%>
+        <%--            console.log("가져온 댓글:", comments); // 가져온 댓글 로그--%>
+        <%--            const commentList = document.getElementById('comment-list');--%>
+        <%--            commentList.innerHTML = ''; // 기존 댓글 지우기--%>
+        <%--            comments.forEach(comment => {--%>
+        <%--              const commentElement = document.createElement('div');--%>
+        <%--              commentElement.textContent = `${comment.writer}: ${comment.content}`;--%>
+        <%--              commentElement.style.borderBottom = "1px solid #ccc";--%>
+        <%--              commentElement.style.padding = "5px 0";--%>
+        <%--              commentList.appendChild(commentElement);--%>
+        <%--            });--%>
+        <%--          })--%>
+        <%--          .catch(error => {--%>
+        <%--            console.error("댓글 가져오기 중 오류 발생:", error);--%>
+        <%--          });--%>
+        <%--}--%>
 
 
         $.ajax({
@@ -467,24 +551,11 @@
       images.each(function() {
         const imgSrc = $(this).attr('src');
         console.log('Image source:', imgSrc);
-
-        // 파일 확장자 추출
-        let format;
-        const extensionMatch = imgSrc.match(/\.(png|jpg|jpeg)$/i);
-
-        if (extensionMatch) {
-          const extension = extensionMatch[1].toLowerCase();
-          format = (extension === 'png') ? 'PNG' : 'JPEG';
-        } else {
-          // 확장자가 없는 경우 기본 형식을 JPEG로 설정
-          format = 'JPEG';
-        }
-
         const imgPromise = new Promise((resolve, reject) => {
           const img = new Image();
           img.src = imgSrc;
           img.onload = () => {
-            doc.addImage(imgSrc, format, 10, yOffset, 180, 160);
+            doc.addImage(imgSrc,'JPEG', 10, yOffset, 180, 160);
             yOffset += 170;
             resolve();
           };
@@ -502,13 +573,14 @@
               });
     });
 
+
+
   </script>
 </head>
 <body>
 
-<b class="text" data-lang="explore" style="margin-top: 200px; display: block;">
-  <fmt:message key="explore" />
-</b><br>
+<b class="text" data-lang="explore"><fmt:message key="explore" /></b><br>
+
 <div class="buttonbox">
   <button class="ctbutton" data-lang="graphic_design"><fmt:message key="graphic_design" /></button>
   <button class="ctbutton" data-lang="video_motion_graphics"><fmt:message key="video_motion_graphics" /></button>
@@ -543,6 +615,7 @@
       </div>
     </div>
   </c:forEach>
+
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -563,7 +636,7 @@
 
           <div class="icon-button" onclick="location.href='/board/mypageform?userId=sup3537'"><img id="profile-photo" src="" alt="Profile Photo" onerror="this.src='../image/K-045.png'"></div>
           <div class="icon-button" style="background-color: #f75172"><i id=heartbtn class="bi bi-heart-fill" style="color: white"></i></div>
-          <div class="icon-button" style="background-color: #1bcad3"><i class="bi bi-chat-dots-fill" style="color: white"></i></div>
+          <div class="icon-button" style="background-color: #1bcad3"><i class="bi bi-chat-dots-fill" style="color: white" id="comment-button"></i></div>
           <div class="icon-button">
             <a href="#" id="download-pdf" style="color: white; text-decoration: none;">
               <i class="bi bi-file-earmark-pdf" style="font-size: 24px;"></i>
@@ -619,6 +692,85 @@
     </div>
   </div>
 </div>
+<!-- 댓글 모달 -->
+<!-- Modal for Comments -->
+<div id="comment-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">댓글 입력</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea id="comment-content" placeholder="댓글을 입력하세요" style="width: 100%; height: 100px;"></textarea>
+      </div>
+      <table id="comment-list" class="table">
+        <!-- 댓글 목록이 동적으로 추가될 곳 -->
+      </table>
+      <div class="modal-footer">
+        <button id="submit-comment" class="btn btn-primary">댓글 작성</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 댓글 불러오기
+  function loadComments(num) {
+    fetch(`/board/alist?num=${num}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(comments => {
+              // 댓글 HTML 생성
+              let commentsHtml = '';
+              comments.forEach(dto => {
+                commentsHtml += '<tr>';
+                commentsHtml += `<td>${dto.no}</td>`; // 번호
+                commentsHtml += '<td>';
+                commentsHtml += `<a href="./detail?num=${dto.num}">`;
+                commentsHtml += '&nbsp;&nbsp;'.repeat(dto.relevel); // relevel에 따라 들여쓰기
+                if (dto.restep > 0) {
+                  commentsHtml += '<img src="../image/re.png"> '; // 답글 아이콘
+                }
+                commentsHtml += `${dto.subject}`; // 제목
+                if (dto.uploadphoto !== 'no') {
+                  commentsHtml += ' <i class="bi bi-image" style="color: gray;"></i>'; // 사진 아이콘
+                }
+                if (dto.recount > 0) {
+                  commentsHtml += ` <span style="color: red;">(${dto.recount})</span>`; // 댓글 수
+                }
+                commentsHtml += '</a></td>';
+                commentsHtml += `<td>${dto.writer}</td>`; // 작성자
+                commentsHtml += `<td>${new Date(dto.writeday).toLocaleDateString()}</td>`; // 작성일
+                commentsHtml += `<td>${dto.readcount}</td>`; // 조회수
+                commentsHtml += '</tr>';
+              });
+
+              // 댓글 목록에 추가
+              document.getElementById('comment-list').innerHTML = commentsHtml;
+            })
+            .catch(error => {
+              console.error("댓글 가져오기 중 오류 발생: ", error);
+              document.getElementById('comment-list').innerHTML = '<tr><td colspan="5">댓글 가져오기 중 오류 발생: ' + error.message + '</td></tr>';
+            });
+  }
+
+  // 모달 열기 시 댓글 로드
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('box')) {
+      const intNum = e.target.dataset.num; // 현재 포트폴리오 번호 가져오기
+      loadComments(intNum); // 댓글 로드
+      $('#comment-modal').modal('show'); // 모달 열기
+    }
+  });
+</script>
+
+
 <div class="language-switcher">
   <button class="lang-btn" onclick="changeLanguage('en')">English</button>
   <button class="lang-btn" onclick="changeLanguage('ko')">한국어</button>
