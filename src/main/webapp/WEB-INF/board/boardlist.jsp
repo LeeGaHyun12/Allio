@@ -510,19 +510,31 @@
               });
     }
 
-    function openModal(userId, portfolioPhoto) {
-      // Modal의 프로필 사진과 userId 설정
-      document.getElementById('profile-photo').src = portfolioPhoto; // 포트폴리오 사진 설정
-      document.getElementById('portfolio-number').value = userId; // userId를 숨겨진 input에 설정
-      console.log(userId);
-      $('#myModal').modal('show'); // Modal을 표시
+    function openModal(element) {
+      // data-* 속성에서 userId와 portfolioPhoto 값을 가져옴
+      const userId = element.getAttribute('data-userid');
+      const portfolioPhoto = element.getAttribute('data-photo');
+
+      // `portfolio-number`의 값을 초기화 후 설정
+      const portfolioNumberInput = document.getElementById('id');
+      portfolioNumberInput.value = ''; // 값 초기화
+      portfolioNumberInput.value = userId; // userId 설정
+
+      // 프로필 사진 설정 및 모달 표시
+      document.getElementById('profile-photo').src = portfolioPhoto;
+      console.log("Modal opened with userId:", userId); // 값 확인
+      $('#myModal').modal('show');
     }
 
     function goToMyPage(element) {
-      var userId = document.getElementById('portfolio-number').value; // userId 가져오기
-      console.log(userId);
-      window.location.href = '/board/mypageform?userid=' + userId; // 해당 마이페이지로 이동
+      // `portfolio-number`에서 userId 가져오기
+      const userId = document.getElementById('id').value;
+      console.log("Navigating to mypage of userId:", userId); // 값 확인
+
+      // 다른 사용자의 마이페이지로 이동
+      window.location.href = '/board/mypageform?userid=' + userId;
     }
+
 
 
     $(document).on('click', '#download-pdf', function() {
@@ -545,24 +557,34 @@
           const extension = extensionMatch[1].toLowerCase();
           format = (extension === 'png') ? 'PNG' : 'JPEG';
         } else {
-          // 확장자가 없는 경우 기본 형식을 JPEG로 설정
-          format = 'JPEG';
+          format = 'JPEG'; // 확장자가 없는 경우 기본 형식
         }
 
         const imgPromise = new Promise((resolve, reject) => {
           const img = new Image();
+          img.crossOrigin = "anonymous"; // CORS 문제 방지
           img.src = imgSrc;
+
           img.onload = () => {
             console.log('Image loaded successfully:', imgSrc); // 이미지 로드 성공 로그
-            doc.addImage(imgSrc, format, 10, yOffset, 180, 160);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            const imgDataUrl = canvas.toDataURL(`image/${format.toLowerCase()}`);
+            doc.addImage(imgDataUrl, format, 10, yOffset, 180, 160);
             yOffset += 170;
             resolve();
           };
+
           img.onerror = (error) => {
             console.error('Error loading image:', imgSrc, error); // 이미지 로드 실패 로그
             reject(error);
           };
         });
+
         imagePromises.push(imgPromise);
       });
 
@@ -575,6 +597,7 @@
                 console.error('Error loading images:', error); // 이미지 로드 실패 로그
               });
     });
+
 
   </script>
 </head>
@@ -600,17 +623,23 @@
 
 <div class="container">
   <c:forEach var="dto" items="${boardList}">
-    <div class="box" data-num="${dto.num}" data-category="${dto.category}"  onclick="openModal('${dto.userId}', '${dto.port_photo}')">
-      <div class="box_background"> <img src="${fn:split(dto.port_photo, ',')[0]}" alt="Thumbnail" style="width: 100%; height: 100%;"></div>
+    <div class="box"
+         data-num="${dto.num}"
+         data-category="${dto.category}"
+         data-userid="${dto.userId}"
+         data-photo="${dto.port_photo}"
+         onclick="openModal(this)">
+      <div class="box_background">
+        <img src="${fn:split(dto.port_photo, ',')[0]}" alt="Thumbnail" style="width: 100%; height: 100%;">
+      </div>
 
       <div class="content">
         <p class="userId" style="margin: 0;">${dto.userId}</p>
         <div class="icons">
           <i class="bi bi-heart-fill" style="margin-right: 5px;">
             <span style="color: white; margin: 10px;">${dto.like_count}</span>
-          </i> <!-- 하트 아이콘 -->
-
-          <i class="bi bi-eye-fill"> <!-- 조회 아이콘 -->
+          </i>
+          <i class="bi bi-eye-fill">
             <span style="color: white; margin: 10px;">${dto.count}</span>
           </i>
         </div>
@@ -619,11 +648,13 @@
   </c:forEach>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <input hidden="hidden" value="" id="portfolio-number">
+        <input type="hidden" id="id"> <!-- hidden 속성 사용 -->
         <h4 class="modal-title"><span id="portfolio-subject"></span></h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -634,14 +665,20 @@
           <div class="icon-button" id="photoBtn" onclick="goToMyPage(this)">
             <img id="profile-photo" src="" alt="Profile Photo" onerror="this.src='../image/K-045.png'">
           </div>
-          <div class="icon-button" style="background-color: #f75172"><i id="heartbtn" class="bi bi-heart-fill" style="color: white"></i></div>
-          <div class="icon-button" style="background-color: #1bcad3"><i id="comment-button" class="bi bi-chat-dots-fill" style="color: white"></i></div>
+          <div class="icon-button" style="background-color: #f75172">
+            <i id="heartbtn" class="bi bi-heart-fill" style="color: white"></i>
+          </div>
+          <div class="icon-button" style="background-color: #1bcad3">
+            <i id="comment-button" class="bi bi-chat-dots-fill" style="color: white"></i>
+          </div>
           <div class="icon-button">
             <a href="#" id="download-pdf" style="color: white; text-decoration: none;">
               <i class="bi bi-file-earmark-pdf" style="font-size: 24px;"></i>
             </a>
           </div>
-          <div class="icon-button"><i class="bi bi-share-fill"></i></div>
+          <div class="icon-button">
+            <i class="bi bi-share-fill"></i>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
