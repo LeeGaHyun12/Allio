@@ -293,7 +293,7 @@
         });
         document.getElementById('submit-comment').addEventListener('click', function() {
           const content = document.getElementById('comment-content').value;
-          const num = 1; // 게시글 번호는 실제 게시글 번호로 변경 필요
+          //const num = 1; // 게시글 번호는 실제 게시글 번호로 변경 필요
 
           // AJAX 요청
           fetch('/board/ainsert', {
