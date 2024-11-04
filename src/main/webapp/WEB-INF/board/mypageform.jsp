@@ -254,13 +254,11 @@
 <div class="portfolio">
     <div class="section-title">Portfolio</div>
     <div class="portfolio_item">
-        <c:forEach var="p" items="${portfolio}">
+        <c:forEach var="p" items="${portfolioList}">
             <div class="pbox">
-
                 <div class="portfolio_photo">
-                    <c:set var="imageUrls" value="${fn:split(portfolio.port_photo, ',')}" />
+                    <c:set var="imageUrls" value="${fn:split(p.port_photo, ',')}" />
                     <img src="${imageUrls[0]}" class="portfolio_image" onerror="this.onerror=null; this.src='default_image_url.jpg';"> <!-- 기본 이미지 설정 -->
-
                 </div>
             </div>
         </c:forEach>

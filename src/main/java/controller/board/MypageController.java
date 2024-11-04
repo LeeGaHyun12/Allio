@@ -26,6 +26,7 @@ public class MypageController {
             MemberDto dto = memberService.getDataById(loginId);
             model.addAttribute("dto", dto);
             System.out.println("dto = " + dto);
+            System.out.println("loginId = " + loginId);
             List<BoardDto> portfolioList = memberService.getBoardByUserId(loginId);
             model.addAttribute("portfolioList", portfolioList);
             System.out.println("portfolioList = " + portfolioList);

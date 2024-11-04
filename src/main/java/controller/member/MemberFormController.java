@@ -47,6 +47,9 @@ public class MemberFormController {
             @RequestParam("myfile")MultipartFile myfile,
             HttpServletRequest request
     ){
+        System.out.println("dto = " + dto);
+
+        String password = dto.getPasswd();
         // 서블릿 컨텍스트 가져오기
         ServletContext context = request.getServletContext();
         //업로드될 경로

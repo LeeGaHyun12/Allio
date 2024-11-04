@@ -78,9 +78,9 @@ public class MemberService {
 //    public String getUserData(int num) { return memInter.getUserDatauser(num);
 //    }
 
-    public List<BoardDto> getBoardByUserId(String userId)
+    public List<BoardDto> getBoardByUserId(String loginId)
     {
-        return borInter.getBoardByUserId(userId);
+        return borInter.getBoardByUserId(loginId);
     }
 
 }
