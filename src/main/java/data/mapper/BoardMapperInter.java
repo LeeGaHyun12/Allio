@@ -15,7 +15,7 @@ public interface BoardMapperInter {
 		""")
 	void insertBoard(BoardDto dto);
 
-	@Select("select * from allio_board order by like_count ")
+	@Select("select * from allio_board order by like_count desc")
 	List<BoardDto> getAllPortfolios();
 
 	@Select("select * from allio_board where num = #{num}")
@@ -37,8 +37,8 @@ public interface BoardMapperInter {
 	@Select("select * from allio_user where num")
 	MemberDto getUserData(@Param("num") int num);
 
-	@Select("SELECT * FROM allio_board WHERE userId = #{userId}")
-	List<BoardDto> getBoardByUserId(String userId);
+	@Select("SELECT * FROM allio_board WHERE userId = #{loginId}")
+	List<BoardDto> getBoardByUserId(String loginId);
 
 
 

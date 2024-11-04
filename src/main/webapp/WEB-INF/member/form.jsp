@@ -238,12 +238,8 @@
             <select id="subcategory" name="subcategory" class="form-control"></select>
         </div>
         <div class="form-group">
-            <label for="password"><fmt:message key="password_label" /></label>
-            <input type="password" id="password" name="password" class="form-control" required />
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword"><fmt:message key="confirm_password_label" /></label>
-            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required />
+            <label for="passwd"><fmt:message key="password_label" /></label>
+            <input type="password" id="passwd" name="passwd" class="form-control" required />
         </div>
         <div class="form-group">
             <label for="myfile"><fmt:message key="profile_image_label" /></label>
