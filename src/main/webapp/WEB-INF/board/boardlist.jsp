@@ -293,7 +293,7 @@
         });
         document.getElementById('submit-comment').addEventListener('click', function() {
           const content = document.getElementById('comment-content').value;
-          const num = 1; // 게시글 번호는 실제 게시글 번호로 변경 필요
+          //const num = 1; // 게시글 번호는 실제 게시글 번호로 변경 필요
 
           // AJAX 요청
           fetch('/board/ainsert', {
@@ -510,6 +510,21 @@
               });
     }
 
+    function openModal(userId, portfolioPhoto) {
+      // Modal의 프로필 사진과 userId 설정
+      document.getElementById('profile-photo').src = portfolioPhoto; // 포트폴리오 사진 설정
+      document.getElementById('portfolio-number').value = userId; // userId를 숨겨진 input에 설정
+      console.log(userId);
+      $('#myModal').modal('show'); // Modal을 표시
+    }
+
+    function goToMyPage(element) {
+      var userId = document.getElementById('portfolio-number').value; // userId 가져오기
+      console.log(userId);
+      window.location.href = '/board/mypageform?userid=' + userId; // 해당 마이페이지로 이동
+    }
+
+
     $(document).on('click', '#download-pdf', function() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -520,7 +535,7 @@
 
       images.each(function() {
         const imgSrc = $(this).attr('src');
-        console.log('Image source:', imgSrc);
+        console.log('Image source:', imgSrc); // 이미지 URL 로그
 
         // 파일 확장자 추출
         let format;
@@ -538,21 +553,26 @@
           const img = new Image();
           img.src = imgSrc;
           img.onload = () => {
+            console.log('Image loaded successfully:', imgSrc); // 이미지 로드 성공 로그
             doc.addImage(imgSrc, format, 10, yOffset, 180, 160);
             yOffset += 170;
             resolve();
           };
-          img.onerror = reject; // 이미지 로드 실패 시 reject
+          img.onerror = (error) => {
+            console.error('Error loading image:', imgSrc, error); // 이미지 로드 실패 로그
+            reject(error);
+          };
         });
         imagePromises.push(imgPromise);
       });
 
       Promise.all(imagePromises)
               .then(() => {
+                console.log('All images loaded successfully. Saving PDF...'); // 모든 이미지 로드 성공 로그
                 doc.save('portfolio.pdf');
               })
               .catch(error => {
-                console.error('Error loading images:', error);
+                console.error('Error loading images:', error); // 이미지 로드 실패 로그
               });
     });
 
@@ -580,7 +600,7 @@
 
 <div class="container">
   <c:forEach var="dto" items="${boardList}">
-    <div class="box" data-num="${dto.num}" data-category="${dto.category}">
+    <div class="box" data-num="${dto.num}" data-category="${dto.category}"  onclick="openModal('${dto.userId}', '${dto.port_photo}')">
       <div class="box_background"> <img src="${fn:split(dto.port_photo, ',')[0]}" alt="Thumbnail" style="width: 100%; height: 100%;"></div>
 
       <div class="content">
@@ -608,16 +628,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="portfolio-details">
-        <div id="portfolio-photo">
-
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <div id="portfolio-photo"></div>
 
         <div class="icon-buttons">
-
-          <div class="icon-button" onclick="location.href='/board/mypageform?userId=sup3537'"><img id="profile-photo" src="" alt="Profile Photo" onerror="this.src='../image/K-045.png'"></div>
-          <div class="icon-button" style="background-color: #f75172"><i id=heartbtn class="bi bi-heart-fill" style="color: white"></i></div>
-          <div class="icon-button" style="background-color: #1bcad3" ><i id="comment-button" class="bi bi-chat-dots-fill" style="color: white"></i></div>
+          <div class="icon-button" id="photoBtn" onclick="goToMyPage(this)">
+            <img id="profile-photo" src="" alt="Profile Photo" onerror="this.src='../image/K-045.png'">
+          </div>
+          <div class="icon-button" style="background-color: #f75172"><i id="heartbtn" class="bi bi-heart-fill" style="color: white"></i></div>
+          <div class="icon-button" style="background-color: #1bcad3"><i id="comment-button" class="bi bi-chat-dots-fill" style="color: white"></i></div>
           <div class="icon-button">
             <a href="#" id="download-pdf" style="color: white; text-decoration: none;">
               <i class="bi bi-file-earmark-pdf" style="font-size: 24px;"></i>
@@ -625,7 +643,6 @@
           </div>
           <div class="icon-button"><i class="bi bi-share-fill"></i></div>
         </div>
-
       </div>
       <div class="modal-footer">
         <p><strong>Content:</strong> <span id="portfolio-content"></span></p>

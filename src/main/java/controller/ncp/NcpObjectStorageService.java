@@ -31,7 +31,7 @@ public class NcpObjectStorageService implements ObjectStorageService {
 
     @Override
     public String uploadFile(String bucketName, String directoryPath, MultipartFile file) {
-        System.out.println("uploadFile="+file.getOriginalFilename());
+        System.out.println("uploadFile=" + file.getOriginalFilename());
 
         if (file.isEmpty()) {
             return null;
@@ -42,21 +42,27 @@ public class NcpObjectStorageService implements ObjectStorageService {
 
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(file.getContentType());
+            objectMetadata.setContentLength(file.getSize());
 
             PutObjectRequest objectRequest = new PutObjectRequest(
                     bucketName,
-                    directoryPath +"/"+ filename,
+                    directoryPath + "/" + filename,
                     fileIn,
                     objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
 
             s3.putObject(objectRequest);
 
-            return s3.getUrl(bucketName, directoryPath + "/" + filename).toString();
+            // Naver Cloud Object Storage URL 형식으로 직접 생성
+            String endpoint = "https://kr.object.ncloudstorage.com"; // 엔드포인트
+            String fileUrl = endpoint + "/" + bucketName + "/" + directoryPath + "/" + filename;
+            System.out.println("Uploaded file URL: " + fileUrl); // URL 로그
+            return fileUrl;
 
         } catch (Exception e) {
             throw new RuntimeException("파일 업로드 오류", e);
         }
     }
+
 
     @Override
     public void deleteFile(String bucketName, String directoryPath, String fileName) {
