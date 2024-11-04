@@ -65,7 +65,17 @@ ncp:
     accessKey: A252DF814BA7C672CD48
     secretKey: 46D6404D168813DE822E4CC13C55346DFB47D3E1
     bucket-name: allio
-
+  cors:
+    allowed-origin:
+      - "http://localhost:9000" # 허용할 출처 URL
+    allowed-method:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+    allowed-header:
+      - "*"
+    max-age: 3000
 cos:
   key: cos1234
 
