@@ -39,14 +39,14 @@ public class BoardListController {
     @Autowired
     private MessageSource messageSource;
 
-    @GetMapping("/Allio/board/boardlist")
+    @GetMapping("/board/boardlist")
     public String boardList(Model model) {
 
         List<BoardDto> boardList = boardService.getAllPortfolios();
         System.out.println(boardList);
         model.addAttribute("boardList", boardList);
 
-        return "Allio/board/boardlist";
+        return "board/boardlist";
     }
 
 
