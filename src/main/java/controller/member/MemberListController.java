@@ -22,15 +22,15 @@ public class MemberListController {
     @NonNull
     private MemberService memberService;
 
-    @GetMapping("/member/list")
-    public String memberList(Model model)
-    {
-        List<MemberDto> list=memberService.getAllMembers();
-
-        model.addAttribute("list",list);
-
-        return "list";
-    }
+//    @GetMapping("/member/list")
+//    public String memberList(Model model)
+//    {
+//        List<MemberDto> list=memberService.getAllMembers();
+//
+//        model.addAttribute("list",list);
+//
+//        return "list";
+//    }
 
     @ResponseBody
     @GetMapping("/profile")
